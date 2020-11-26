@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 
 # lib imports
+import uuid
 from datetime import datetime
 from sqlalchemy import Column, String, DateTime, ForeignKey
 from sqlalchemy.orm import relationship
@@ -14,7 +15,7 @@ class Customer(base_model):
 
     __tablename__ = 'customers'
 
-    id = Column(GUID(), primary_key=True)
+    id = Column(GUID(), default=uuid.uuid4, primary_key=True)
     name = Column(String(128), nullable=False)
     mobile_phone = Column(String(128), unique=True, nullable=False)
     address = Column(String(256))
@@ -23,7 +24,7 @@ class Customer(base_model):
 
     last_modified_by = Column(GUID, ForeignKey('employees.id'), nullable=False)
 
-    order = relationship("Order", uselist=False, backref="customer")
+    order = relationship("Order", uselist=True, backref="customer")
 
     def __init__(self, name, mobile_phone, address, last_modified_by):
         self.name = name

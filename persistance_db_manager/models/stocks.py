@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
 
 # lib imports
+import uuid
 from datetime import datetime
 from sqlalchemy import Column, DateTime, ForeignKey, Integer
-from sqlalchemy.orm import relationship
 
 # project imports
 from persistance_db_manager.abstract_db_driver import base_model
@@ -14,7 +14,7 @@ class Stock(base_model):
 
     __tablename__ = 'stocks'
 
-    id = Column(GUID(), primary_key=True)
+    id = Column(GUID(), default=uuid.uuid4, primary_key=True)
     quantity = Column(Integer, nullable=False)
     retail_price = Column(Integer, nullable=False)
     created_at = Column(DateTime, nullable=False)
@@ -23,8 +23,6 @@ class Stock(base_model):
     last_modified_by = Column(GUID, ForeignKey('employees.id'), nullable=False)
     product_id = Column(GUID, ForeignKey('products.id'), nullable=False)
     supplier_id = Column(GUID, ForeignKey('suppliers.id'), nullable=False)
-
-    supplier = relationship("Supplier", uselist=False, backref="stock")
 
     def __init__(self, quantity, retail_price, last_modified_by, product_id, supplier_id):
         self.quantity = quantity

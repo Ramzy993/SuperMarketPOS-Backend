@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
 
 # lib imports
+import uuid
 from datetime import datetime
 from sqlalchemy import Column, String, DateTime, ForeignKey, Integer, CheckConstraint
-from sqlalchemy.orm import relationship
 
 # project imports
 from persistance_db_manager.abstract_db_driver import base_model
@@ -16,7 +16,7 @@ class Order(base_model):
     __table_args__ = (CheckConstraint('order_discount_rate >= 0 and order_discount_rate < 1',
                                       name='discount_rate_constrain'),)
 
-    id = Column(GUID(), primary_key=True)
+    id = Column(GUID(), default=uuid.uuid4, primary_key=True)
     order_id = Column(Integer, unique=True, nullable=False)
     order_date = Column(DateTime, nullable=False)
     order_status = Column(String(128), nullable=False)
@@ -27,8 +27,6 @@ class Order(base_model):
 
     last_modified_by = Column(GUID, ForeignKey('employees.id'), nullable=False)
     customer_id = Column(GUID, ForeignKey('customers.id'), nullable=False)
-
-    customer = relationship("Customer", uselist=True, backref="orders")
 
     def __init__(self, order_id, order_date, order_status, order_discount_rate, last_modified_by, customer_id):
         self.order_id = order_id

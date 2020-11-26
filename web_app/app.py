@@ -27,5 +27,5 @@ def start_app(app=None):
     if app is None:
         app = creat_app()
 
-    app.run(host=host, port=port, debug=debug)
+    app.run(host=host, port=port, debug=debug, use_reloader=False)
 

@@ -5,15 +5,13 @@ import os
 from configparser import ConfigParser, ExtendedInterpolation
 
 # project imports
-from utilities.patterns.singleton import Singleton
+from utilities.patterns.singleton import SingletonDecorator
 
 
-class ConfigManager(Singleton):
+@SingletonDecorator
+class ConfigManager:
 
     def __init__(self):
-        pass
-
-    def init(self):
         self.stage = 'dev'
         self.config_files_path = os.path.abspath(os.path.join(__file__, '..', 'configs'))
         self.config_file_ending = '.env.config.ini'
