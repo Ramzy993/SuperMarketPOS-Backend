@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 
 # lib imports
+import uuid
 from sqlalchemy import Column, String, ForeignKey, Integer, CheckConstraint
 from sqlalchemy.orm import relationship
 
@@ -15,7 +16,7 @@ class OrderItem(base_model):
     __table_args__ = (CheckConstraint('item_discount_rate >= 0 and item_discount_rate < 1',
                                       name='discount_rate_constrain'),)
 
-    id = Column(GUID(), primary_key=True)
+    id = Column(GUID(), default=uuid.uuid4, primary_key=True)
     quantity = Column(Integer, nullable=False)
     price = Column(Integer, nullable=False)
     item_discount_rate = Column(String(128), unique=True, nullable=False)

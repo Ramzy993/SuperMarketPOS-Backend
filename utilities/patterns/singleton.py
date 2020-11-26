@@ -1,21 +1,12 @@
 #!/usr/bin/env python3
 
 
-class Singleton:
+class SingletonDecorator:
+    def __init__(self, klass):
+        self.klass = klass
+        self.instance = None
 
-    def __new__(cls, *args, **kwargs):
-        it = cls.__dict__.get('__it__')
-
-        if it is not None:
-            return it
-
-        cls.__it__ = it = object.__new__(cls)
-        it.init(*args, **kwargs)
-
-        return it
-
-    def init(self, *args, **kwargs):
-        pass
-
-
-
+    def __call__(self, *args, **kwargs):
+        if self.instance is None:
+            self.instance = self.klass(*args, **kwargs)
+        return self.instance

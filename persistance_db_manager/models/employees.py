@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 
 # lib imports
+import uuid
 from datetime import datetime
 from sqlalchemy import Column, String, DateTime
 from sqlalchemy.orm import relationship
@@ -15,13 +16,13 @@ class Employee(base_model):
 
     __tablename__ = 'employees'
 
-    id = Column(GUID(), primary_key=True)
+    id = Column(GUID(), default=uuid.uuid4, primary_key=True)
+    username = Column(String(128), unique=True, nullable=False, primary_key=True)
+    password = Column(String(128), nullable=False)
     name = Column(String(128), nullable=False)
     mobile_phone = Column(String(128), unique=True, nullable=False)
     address = Column(String(256))
-    role = Column(String(128))
-    username = Column(String(128))
-    password = Column(String(128))
+    role = Column(String(128), nullable=False)
     created_at = Column(DateTime, nullable=False)
     updated_at = Column(DateTime, nullable=False)
 

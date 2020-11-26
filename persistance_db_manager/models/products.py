@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 
 # lib imports
+import uuid
 from datetime import datetime
 from sqlalchemy import Column, String, DateTime, ForeignKey, Text, Integer
 from sqlalchemy.orm import relationship
@@ -14,7 +15,7 @@ class Product(base_model):
 
     __tablename__ = 'products'
 
-    id = Column(GUID(), primary_key=True)
+    id = Column(GUID(), default=uuid.uuid4, primary_key=True)
     name = Column(String(128), unique=True, nullable=False)
     description = Column(Text)
     par_code = Column(String(64), unique=True, nullable=False)
