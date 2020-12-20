@@ -5,8 +5,8 @@ import os
 import logging
 
 # project imports
-from config_manager.config_manager import ConfigManager
-from utilities.patterns.singleton import SingletonDecorator
+from pos.config_manager.config_manager import ConfigManager
+from pos.utilities.patterns.singleton import SingletonDecorator
 
 
 app_config = ConfigManager().app_config

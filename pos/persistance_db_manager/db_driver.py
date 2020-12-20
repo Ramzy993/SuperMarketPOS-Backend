@@ -1,25 +1,27 @@
 #!/usr/bin/env python3
 
 # lib imports
+from datetime import datetime
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 
 # project imports
-from config_manager.config_manager import ConfigManager
-from utilities.exception_handler import BaseException
-from utilities.patterns.singleton import SingletonDecorator
-from persistance_db_manager.abstract_db_driver import AbstractDBDriver, base_model
-from persistance_db_manager.models.customers import Customer
-from persistance_db_manager.models.categories import Category
-from persistance_db_manager.models.orders import Order
-from persistance_db_manager.models.employees import Employee
-from persistance_db_manager.models.products import Product
-from persistance_db_manager.models.stocks import Stock
-from persistance_db_manager.models.suppliers import Supplier
-from persistance_db_manager.models.order_items import OrderItem
-
+from pos.logger_manager.logger_manager import LogManger
+from pos.config_manager.config_manager import ConfigManager
+from pos.utilities.exception_handler import BaseException
+from pos.utilities.patterns.singleton import SingletonDecorator
+from pos.persistance_db_manager.abstract_db_driver import AbstractDBDriver, base_model
+from pos.persistance_db_manager.models.customers import Customer
+from pos.persistance_db_manager.models.categories import Category
+from pos.persistance_db_manager.models.orders import Order
+from pos.persistance_db_manager.models.employees import Employee
+from pos.persistance_db_manager.models.products import Product
+from pos.persistance_db_manager.models.stocks import Stock
+from pos.persistance_db_manager.models.suppliers import Supplier
+from pos.persistance_db_manager.models.order_items import OrderItem
 
 app_config = ConfigManager().app_config
+logger = LogManger().get_logger(__name__)
 
 
 class DBDriverException(BaseException):
@@ -36,14 +38,13 @@ class DBDriver(AbstractDBDriver):
         self.host = app_config.get('DATABASE', 'host')
         self.username = app_config.get('DATABASE', 'username')
         self.password = app_config.get('DATABASE', 'password')
-
         if self.dialect == 'sqlite':
             self.connection_string = self.dialect + ":///tmp/" + self.database_name + '.db'
         else:
             self.connection_string = self.dialect + "://" + self.username + ":" + self.password + "@" + \
                                      self.host + "/" + self.database_name
 
-        self.engine = create_engine(self.connection_string)
+        self.engine = create_engine(self.connection_string, connect_args={"check_same_thread": False})
 
         base_model.metadata.create_all(self.engine)
 
@@ -77,7 +78,8 @@ class DBDriver(AbstractDBDriver):
 
         for key, value in args_dict.items():
             if value is not None and key in model_attr_dict:
-                query = query.filter(getattr(model, key, value))
+                attr = getattr(model, key)
+                query = query.filter(attr == value)
 
         return query
 
@@ -104,35 +106,40 @@ class DBDriver(AbstractDBDriver):
 
         except Exception as e:
             self.session.rollback()
+            logger.error(f"Database Error: {e}")
             raise DBDriverException(f"Database ERROR: {e}")
 
-    def get_employees(self, username=None, name=None, mobile_phone=None, address=None, role=None):
+    def get_employees(self, id=None, username=None, name=None, mobile_phone=None, address=None, role=None, last_modified_by=None):
         try:
             employees = self.__dynamic_filter(Employee, locals()).all()
             return employees
 
         except Exception as e:
             self.session.rollback()
+            logger.error(f"Database Error: {e}")
             raise DBDriverException(f"Database ERROR: {e}")
 
-    def update_employee(self, username, password=None, name=None, mobile_phone=None, address=None, role=None):
+    def update_employee(self, username, password=None, name=None, mobile_phone=None, address=None, role=None, last_modified_by=None):
         try:
             employee = self.session.query(Employee).filter_by(username=username).first()
-            employee = self.__dynamic_update(Employee, locals())
+            employee = self.__dynamic_update(employee, locals())
+            employee.updated_at = datetime.now()
             self.session.commit()
             return employee
 
         except Exception as e:
             self.session.rollback()
+            logger.error(f"Database Error: {e}")
             raise DBDriverException(f"Database ERROR: {e}")
 
-    def delete_employee(self, username):
+    def delete_employee(self, id):
         try:
-            self.session.query(Employee).filter_by(username=username).delete()
+            self.session.query(Employee).filter_by(id=id).delete()
             self.session.commit()
 
         except Exception as e:
             self.session.rollback()
+            logger.error(f"Database Error: {e}")
             raise DBDriverException(f"Database ERROR: {e}")
 
     def create_customer(self, name, mobile_phone, address, last_modified_by):
@@ -142,26 +149,30 @@ class DBDriver(AbstractDBDriver):
 
         except Exception as e:
             self.session.rollback()
+            logger.error(f"Database Error: {e}")
             raise DBDriverException(f"Database ERROR: {e}")
 
-    def get_customers(self, name=None, mobile_phone=None, address=None, last_modified_by=None):
+    def get_customers(self, id=None, name=None, mobile_phone=None, address=None, last_modified_by=None):
         try:
             customers = self.__dynamic_filter(Customer, locals()).all()
             return customers
 
         except Exception as e:
             self.session.rollback()
+            logger.error(f"Database Error: {e}")
             raise DBDriverException(f"Database ERROR: {e}")
 
     def update_customer(self, id, last_modified_by, name=None, mobile_phone=None, address=None):
         try:
             customer = self.session.query(Customer).filter_by(id=id).first()
-            customer = self.__dynamic_update(Customer, locals())
+            customer = self.__dynamic_update(customer, locals())
+            customer.updated_at = datetime.now()
             self.session.commit()
             return customer
 
         except Exception as e:
             self.session.rollback()
+            logger.error(f"Database Error: {e}")
             raise DBDriverException(f"Database ERROR: {e}")
 
     def delete_customer(self, id):
@@ -171,6 +182,7 @@ class DBDriver(AbstractDBDriver):
 
         except Exception as e:
             self.session.rollback()
+            logger.error(f"Database Error: {e}")
             raise DBDriverException(f"Database ERROR: {e}")
 
     def create_supplier(self, name, mobile_phone, email, address, last_modified_by):
@@ -181,26 +193,30 @@ class DBDriver(AbstractDBDriver):
 
         except Exception as e:
             self.session.rollback()
+            logger.error(f"Database Error: {e}")
             raise DBDriverException(f"Database ERROR: {e}")
 
-    def get_suppliers(self, name=None, mobile_phone=None, email=None, address=None, last_modified_by=None):
+    def get_suppliers(self, id=None, name=None, mobile_phone=None, email=None, address=None, last_modified_by=None):
         try:
             suppliers = self.__dynamic_filter(Supplier, locals()).all()
             return suppliers
 
         except Exception as e:
             self.session.rollback()
+            logger.error(f"Database Error: {e}")
             raise DBDriverException(f"Database ERROR: {e}")
 
     def update_supplier(self, id, last_modified_by, name=None, email=None, mobile_phone=None, address=None):
         try:
             supplier = self.session.query(Supplier).filter_by(id=id).first()
-            supplier = self.__dynamic_update(Supplier, locals())
+            supplier = self.__dynamic_update(supplier, locals())
+            supplier.updated_at = datetime.now()
             self.session.commit()
             return supplier
 
         except Exception as e:
             self.session.rollback()
+            logger.error(f"Database Error: {e}")
             raise DBDriverException(f"Database ERROR: {e}")
 
     def delete_supplier(self, id):
@@ -210,6 +226,7 @@ class DBDriver(AbstractDBDriver):
 
         except Exception as e:
             self.session.rollback()
+            logger.error(f"Database Error: {e}")
             raise DBDriverException(f"Database ERROR: {e}")
 
     def create_order(self, order_id, order_date, order_status, order_discount_rate, total_price, customer_id,
@@ -222,9 +239,10 @@ class DBDriver(AbstractDBDriver):
 
         except Exception as e:
             self.session.rollback()
+            logger.error(f"Database Error: {e}")
             raise DBDriverException(f"Database ERROR: {e}")
 
-    def get_orders(self, order_id=None, order_date=None, order_status=None, order_discount_rate=None, total_price=None,
+    def get_orders(self, id=None, order_id=None, order_date=None, order_status=None, order_discount_rate=None, total_price=None,
                    customer_id=None, last_modified_by=None):
         try:
             orders = self.__dynamic_filter(Order, locals()).all()
@@ -232,18 +250,21 @@ class DBDriver(AbstractDBDriver):
 
         except Exception as e:
             self.session.rollback()
+            logger.error(f"Database Error: {e}")
             raise DBDriverException(f"Database ERROR: {e}")
 
     def update_order(self, id, last_modified_by, order_date=None, order_status=None, order_discount_rate=None,
                      total_price=None, customer_id=None):
         try:
             order = self.session.query(Order).filter_by(id=id).first()
-            order = self.__dynamic_update(Order, locals())
+            order = self.__dynamic_update(order, locals())
+            order.updated_at = datetime.now()
             self.session.commit()
             return order
 
         except Exception as e:
             self.session.rollback()
+            logger.error(f"Database Error: {e}")
             raise DBDriverException(f"Database ERROR: {e}")
 
     def delete_order(self, id):
@@ -253,6 +274,7 @@ class DBDriver(AbstractDBDriver):
 
         except Exception as e:
             self.session.rollback()
+            logger.error(f"Database Error: {e}")
             raise DBDriverException(f"Database ERROR: {e}")
 
     def create_order_item(self, quantity, price, order_item_discount_rate, product_id, order_id):
@@ -263,26 +285,29 @@ class DBDriver(AbstractDBDriver):
 
         except Exception as e:
             self.session.rollback()
+            logger.error(f"Database Error: {e}")
             raise DBDriverException(f"Database ERROR: {e}")
 
-    def get_order_items(self, quantity=None, price=None, order_item_discount_rate=None, product_id=None, order_id=None):
+    def get_order_items(self, id=None, quantity=None, price=None, order_item_discount_rate=None, product_id=None, order_id=None):
         try:
             order_items = self.__dynamic_filter(OrderItem, locals()).all()
             return order_items
 
         except Exception as e:
             self.session.rollback()
+            logger.error(f"Database Error: {e}")
             raise DBDriverException(f"Database ERROR: {e}")
 
     def update_order_item(self, id, quantity=None, price=None, order_item_discount_rate=None, product_id=None, order_id=None):
         try:
             order_item = self.session.query(OrderItem).filter_by(id=id).first()
-            order_item = self.__dynamic_update(OrderItem, locals())
+            order_item = self.__dynamic_update(order_item, locals())
             self.session.commit()
             return order_item
 
         except Exception as e:
             self.session.rollback()
+            logger.error(f"Database Error: {e}")
             raise DBDriverException(f"Database ERROR: {e}")
 
     def delete_order_item(self, id):
@@ -292,6 +317,7 @@ class DBDriver(AbstractDBDriver):
 
         except Exception as e:
             self.session.rollback()
+            logger.error(f"Database Error: {e}")
             raise DBDriverException(f"Database ERROR: {e}")
 
     def create_category(self, name, description, last_modified_by):
@@ -301,26 +327,30 @@ class DBDriver(AbstractDBDriver):
 
         except Exception as e:
             self.session.rollback()
+            logger.error(f"Database Error: {e}")
             raise DBDriverException(f"Database ERROR: {e}")
 
-    def get_categories(self, name=None, description=None, last_modified_by=None):
+    def get_categories(self, id=None, name=None, description=None, last_modified_by=None):
         try:
             categories = self.__dynamic_filter(Category, locals()).all()
             return categories
 
         except Exception as e:
             self.session.rollback()
+            logger.error(f"Database Error: {e}")
             raise DBDriverException(f"Database ERROR: {e}")
 
     def update_category(self, id, last_modified_by, name=None, description=None):
         try:
             category = self.session.query(Category).filter_by(id=id).first()
-            category = self.__dynamic_update(Category, locals())
+            category = self.__dynamic_update(category, locals())
+            category.updated_at = datetime.now()
             self.session.commit()
             return category
 
         except Exception as e:
             self.session.rollback()
+            logger.error(f"Database Error: {e}")
             raise DBDriverException(f"Database ERROR: {e}")
 
     def delete_category(self, id):
@@ -330,6 +360,7 @@ class DBDriver(AbstractDBDriver):
 
         except Exception as e:
             self.session.rollback()
+            logger.error(f"Database Error: {e}")
             raise DBDriverException(f"Database ERROR: {e}")
 
     def create_product(self, name, description, par_code, price, last_modified_by, category_id):
@@ -340,26 +371,30 @@ class DBDriver(AbstractDBDriver):
 
         except Exception as e:
             self.session.rollback()
+            logger.error(f"Database Error: {e}")
             raise DBDriverException(f"Database ERROR: {e}")
 
-    def get_products(self, name=None, description=None, par_code=None, price=None, last_modified_by=None, category_id=None):
+    def get_products(self, id=None, name=None, description=None, par_code=None, price=None, last_modified_by=None, category_id=None):
         try:
             products = self.__dynamic_filter(Product, locals()).all()
             return products
 
         except Exception as e:
             self.session.rollback()
+            logger.error(f"Database Error: {e}")
             raise DBDriverException(f"Database ERROR: {e}")
 
     def update_product(self, id, last_modified_by, name=None, description=None, par_code=None, price=None, category_id=None):
         try:
             product = self.session.query(Product).filter_by(id=id).first()
-            product = self.__dynamic_update(Product, locals())
+            product = self.__dynamic_update(product, locals())
+            product.updated_at = datetime.now()
             self.session.commit()
             return product
 
         except Exception as e:
             self.session.rollback()
+            logger.error(f"Database Error: {e}")
             raise DBDriverException(f"Database ERROR: {e}")
 
     def delete_product(self, id):
@@ -369,6 +404,7 @@ class DBDriver(AbstractDBDriver):
 
         except Exception as e:
             self.session.rollback()
+            logger.error(f"Database Error: {e}")
             raise DBDriverException(f"Database ERROR: {e}")
 
     def create_stock(self, quantity, retail_price, last_modified_by, supplier_id, product_id):
@@ -379,26 +415,30 @@ class DBDriver(AbstractDBDriver):
 
         except Exception as e:
             self.session.rollback()
+            logger.error(f"Database Error: {e}")
             raise DBDriverException(f"Database ERROR: {e}")
 
-    def get_stocks(self, quantity=None, retail_price=None, last_modified_by=None, supplier_id=None, product_id=None):
+    def get_stocks(self, id=None, quantity=None, retail_price=None, last_modified_by=None, supplier_id=None, product_id=None):
         try:
             stocks = self.__dynamic_filter(Stock, locals()).all()
             return stocks
 
         except Exception as e:
             self.session.rollback()
+            logger.error(f"Database Error: {e}")
             raise DBDriverException(f"Database ERROR: {e}")
 
     def update_stock(self, id, last_modified_by, quantity=None, retail_price=None, supplier_id=None, product_id=None):
         try:
             stock = self.session.query(Stock).filter_by(id=id).first()
-            stock = self.__dynamic_update(Stock, locals())
+            stock = self.__dynamic_update(stock, locals())
+            stock.updated_at = datetime.now()
             self.session.commit()
             return stock
 
         except Exception as e:
             self.session.rollback()
+            logger.error(f"Database Error: {e}")
             raise DBDriverException(f"Database ERROR: {e}")
 
     def delete_stock(self, id):
@@ -408,4 +448,5 @@ class DBDriver(AbstractDBDriver):
 
         except Exception as e:
             self.session.rollback()
+            logger.error(f"Database Error: {e}")
             raise DBDriverException(f"Database ERROR: {e}")

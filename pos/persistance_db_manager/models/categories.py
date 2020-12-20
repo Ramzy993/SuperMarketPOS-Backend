@@ -7,8 +7,8 @@ from sqlalchemy import Column, String, Text, DateTime, ForeignKey
 from sqlalchemy.orm import relationship
 
 # project imports
-from persistance_db_manager.abstract_db_driver import base_model
-from persistance_db_manager.guid import GUID
+from pos.persistance_db_manager.abstract_db_driver import base_model
+from pos.persistance_db_manager.guid import GUID
 
 
 class Category(base_model):
@@ -37,7 +37,10 @@ class Category(base_model):
 
     def to_json(self):
         return {
-            'id': self.id,
+            'id': str(self.id),
             'name': self.name,
-            'description': self.description
+            'description': self.description,
+            'last_modified_by': self.last_modified_by,
+            'created_at': self.created_at,
+            'updated_at': self.updated_at
         }
