@@ -5,7 +5,7 @@ import os
 from configparser import ConfigParser, ExtendedInterpolation
 
 # project imports
-from utilities.patterns.singleton import SingletonDecorator
+from pos.utilities.patterns.singleton import SingletonDecorator
 
 
 @SingletonDecorator

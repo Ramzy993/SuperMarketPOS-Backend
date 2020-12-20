@@ -6,8 +6,8 @@ from sqlalchemy import Column, String, ForeignKey, Integer, CheckConstraint
 from sqlalchemy.orm import relationship
 
 # project imports
-from persistance_db_manager.abstract_db_driver import base_model
-from persistance_db_manager.guid import GUID
+from pos.persistance_db_manager.abstract_db_driver import base_model
+from pos.persistance_db_manager.guid import GUID
 
 
 class OrderItem(base_model):

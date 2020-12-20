@@ -3,8 +3,8 @@
 # lib imports
 
 # project imports
-from web_app.app import start_app
-from logger_manager.logger_manager import LogManger
+from pos.web_app.app import start_app
+from pos.logger_manager.logger_manager import LogManger
 
 
 logger = LogManger().get_logger(__name__)

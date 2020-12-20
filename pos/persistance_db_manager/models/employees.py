@@ -8,8 +8,8 @@ from sqlalchemy.orm import relationship
 from werkzeug.security import generate_password_hash
 
 # project imports
-from persistance_db_manager.abstract_db_driver import base_model
-from persistance_db_manager.guid import GUID
+from pos.persistance_db_manager.abstract_db_driver import base_model
+from pos.persistance_db_manager.guid import GUID
 
 
 class Employee(base_model):
@@ -56,4 +56,5 @@ class Employee(base_model):
             'created_at': self.created_at,
             'updated_at': self.updated_at,
             'role': self.role,
+            'username': self.username
         }

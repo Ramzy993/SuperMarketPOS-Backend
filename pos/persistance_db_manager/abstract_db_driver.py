@@ -20,11 +20,11 @@ class AbstractDBDriver(metaclass=ABCMeta):
         pass
 
     @abstractmethod
-    def get_employees(self, username=None, name=None, mobile_phone=None, address=None, role=None):
+    def get_employees(self, username=None, name=None, mobile_phone=None, address=None, role=None, last_modified_by=None):
         pass
 
     @abstractmethod
-    def update_employee(self, username, password=None, name=None, mobile_phone=None, address=None, role=None):
+    def update_employee(self, username, password=None, name=None, mobile_phone=None, address=None, role=None, last_modified_by=None):
         pass
 
     @abstractmethod

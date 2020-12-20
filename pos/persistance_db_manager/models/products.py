@@ -7,8 +7,8 @@ from sqlalchemy import Column, String, DateTime, ForeignKey, Text, Integer
 from sqlalchemy.orm import relationship
 
 # project imports
-from persistance_db_manager.abstract_db_driver import base_model
-from persistance_db_manager.guid import GUID
+from pos.persistance_db_manager.abstract_db_driver import base_model
+from pos.persistance_db_manager.guid import GUID
 
 
 class Product(base_model):
