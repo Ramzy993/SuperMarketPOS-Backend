@@ -26,24 +26,6 @@ def create_order():
     json_data = request.json
 
     order = (DBDriver().get_orders(order_id=json_data['order_id']) or [None])[0]
-    created_order = DBDriver().create_order(order_id=json_data['order_id'],
-                                            order_date=json_data['order_date'],
-                                            order_status=json_data['order_status'],
-                                            order_discount_rate=json_data['order_discount_rate'],
-                                            total_price=json_data['total_price'],
-                                            customer_id=json_data['customer_id'],
-                                            last_modified_by=json_data['last_modified_by'])
-    order_items = []
-    for order_item in json_data['order_items']:
-        created_order_item = DBDriver().create_order_item(quantity=order_item['quantity'],
-                                                          price=order_item['price'],
-                                                          order_item_discount_rate=order_item[
-                                                              'order_item_discount_rate'],
-                                                          product_id=order_item['product_id'],
-                                                          order_id=created_order.id)
-        order_items.append(created_order_item)
-    order = {'order_details': created_order, 'order_items': order_items}
-    return StandardResponse(order, 200).to_json()
     if order is None:
         try:
             created_order = DBDriver().create_order(order_id=json_data['order_id'],
