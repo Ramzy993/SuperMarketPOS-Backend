@@ -29,11 +29,11 @@ def create_stock():
 
     if stock is None:
         try:
-            created_stock = DBDriver().create_stock(quantity=json_data['quantity'],
-                                                    retail_price=json_data['retail_price'],
+            created_stock = DBDriver().create_stock(quantity=json_data.get('quantity', None),
+                                                    retail_price=json_data.get('retail_price', None),
                                                     last_modified_by=json_data['last_modified_by'],
-                                                    supplier_id=json_data['supplier_id'],
-                                                    product_id=json_data['product_id'])
+                                                    supplier_id=json_data.get('supplier_id', None),
+                                                    product_id=json_data.get('product_id', None))
             return StandardResponse(created_stock, 200).to_json()
         except:
             return StandardResponse("check request json format", 400).to_json()
@@ -49,11 +49,11 @@ def update_stocks(stock_id):
 
     if stock is not None:
         try:
-            updated_stock = DBDriver().update_stock(id=stock_id, quantity=json_data['quantity'],
-                                                    retail_price=json_data['retail_price'],
+            updated_stock = DBDriver().update_stock(id=stock_id, quantity=json_data.get('quantity', None),
+                                                    retail_price=json_data.get('retail_price', None),
                                                     last_modified_by=json_data['last_modified_by'],
-                                                    supplier_id=json_data['supplier_id'],
-                                                    product_id=json_data['product_id'])
+                                                    supplier_id=json_data.get('supplier_id', None),
+                                                    product_id=json_data.get('product_id', None))
             return StandardResponse(updated_stock, 200).to_json()
         except:
             return StandardResponse("check request json format", 400).to_json()

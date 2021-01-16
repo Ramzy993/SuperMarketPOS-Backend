@@ -38,7 +38,7 @@ def create_supplier():
         except:
             return StandardResponse("check request json format", 400).to_json()
     else:
-        return StandardResponse("category already exists", 406).to_json()
+        return StandardResponse("supplier already exists", 406).to_json()
 
 
 @suppliers_blueprint.route('/suppliers/<supplier_id>', methods=['PUT', 'PATCH'])
@@ -49,15 +49,15 @@ def update_suppliers(supplier_id):
 
     if supplier is not None:
         try:
-            updated_supplier = DBDriver().update_supplier(id=supplier_id, name=json_data['name'],
-                                                          mobile_phone=json_data['mobile_phone'],
-                                                          address=json_data['address'], email=json_data['email'],
-                                                          last_modified_by=json_data['last_modified_by'])
+            updated_supplier = DBDriver().update_supplier(id=supplier_id, name=json_data.get('name', None),
+                                                          mobile_phone=json_data.get('mobile_phone', None),
+                                                          address=json_data.get('address', None), email=json_data.get('email', None),
+                                                          last_modified_by=json_data.get('last_modified_by', None))
             return StandardResponse(updated_supplier, 200).to_json()
         except:
             return StandardResponse("check request json format", 400).to_json()
     else:
-        return StandardResponse("category does not exist", 406).to_json()
+        return StandardResponse("suppliers does not exist", 406).to_json()
 
 
 @suppliers_blueprint.route('/suppliers/<supplier_id>', methods=['DELETE'])

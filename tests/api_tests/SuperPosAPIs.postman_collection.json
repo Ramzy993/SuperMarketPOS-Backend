@@ -1,0 +1,3062 @@
+{
+	"info": {
+		"_postman_id": "88ca1943-91de-4c34-96b9-3f39ebc92ed6",
+		"name": "SuperPosAPIs",
+		"description": "This is a collection to test/document API endpoints for SuperPos system.\r\n\r\nYou can find all details here in this repo\r\nhttps://github.com/Ramzy993/SuperMarketPOS-Backend",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Employees",
+			"item": [
+				{
+					"name": "GET Employees",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"const schema = {\r",
+									"    \"$schema\": \"http://json-schema.org/draft-07/schema\",\r",
+									"    \"$id\": \"#\",\r",
+									"    \"type\": \"object\",\r",
+									"    \"default\": {},\r",
+									"    \"required\": [],\r",
+									"    \"properties\": {\r",
+									"        \"data\": {\r",
+									"            \"$id\": \"##/properties/data\",\r",
+									"            \"type\": \"array\",\r",
+									"            \"default\": [],\r",
+									"            \"items\": {\r",
+									"                \"$id\": \"##/properties/data/items\",\r",
+									"                \"anyOf\": [\r",
+									"                    {\r",
+									"                        \"$id\": \"##/properties/data/items/anyOf/0\",\r",
+									"                        \"type\": \"object\",\r",
+									"                        \"default\": {},\r",
+									"                        \"required\": [],\r",
+									"                        \"properties\": {\r",
+									"                            \"id\": {\r",
+									"                                \"$id\": \"##/properties/data/items/anyOf/0/properties/id\",\r",
+									"                                \"type\": \"string\",\r",
+									"                                \"default\": \"\"\r",
+									"                            },\r",
+									"                            \"name\": {\r",
+									"                                \"$id\": \"##/properties/data/items/anyOf/0/properties/name\",\r",
+									"                                \"type\": \"string\",\r",
+									"                                \"default\": \"\"\r",
+									"                            },\r",
+									"                            \"mobile_phone\": {\r",
+									"                                \"$id\": \"##/properties/data/items/anyOf/0/properties/mobile_phone\",\r",
+									"                                \"type\": \"string\",\r",
+									"                                \"default\": \"\"\r",
+									"                            },\r",
+									"                            \"address\": {\r",
+									"                                \"$id\": \"##/properties/data/items/anyOf/0/properties/address\",\r",
+									"                                \"type\": \"string\",\r",
+									"                                \"default\": \"\"\r",
+									"                            },\r",
+									"                            \"created_at\": {\r",
+									"                                \"$id\": \"##/properties/data/items/anyOf/0/properties/created_at\",\r",
+									"                                \"type\": \"string\",\r",
+									"                                \"default\": \"\"\r",
+									"                            },\r",
+									"                            \"updated_at\": {\r",
+									"                                \"$id\": \"##/properties/data/items/anyOf/0/properties/updated_at\",\r",
+									"                                \"type\": \"string\",\r",
+									"                                \"default\": \"\"\r",
+									"                            },\r",
+									"                            \"role\": {\r",
+									"                                \"$id\": \"##/properties/data/items/anyOf/0/properties/role\",\r",
+									"                                \"type\": \"string\",\r",
+									"                                \"default\": \"\"\r",
+									"                            },\r",
+									"                            \"username\": {\r",
+									"                                \"$id\": \"##/properties/data/items/anyOf/0/properties/username\",\r",
+									"                                \"type\": \"string\",\r",
+									"                                \"default\": \"\"\r",
+									"                            }\r",
+									"                        }\r",
+									"                    }\r",
+									"                ]\r",
+									"            }\r",
+									"        }\r",
+									"    }\r",
+									"}\r",
+									"\r",
+									"pm.test('Schema is valid', function () {\r",
+									"    pm.expect(tv4.validate(pm.response.json(), schema));\r",
+									"});\r",
+									"\r",
+									"pm.environment.set(\"employee_id\", pm.response.json().data[0].id);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}:{{port}}/{{url_prefix}}/employees",
+							"host": [
+								"{{url}}"
+							],
+							"port": "{{port}}",
+							"path": [
+								"{{url_prefix}}",
+								"employees"
+							],
+							"query": [
+								{
+									"key": "id",
+									"value": null,
+									"disabled": true
+								},
+								{
+									"key": "name",
+									"value": "",
+									"disabled": true
+								},
+								{
+									"key": "mobile_phone",
+									"value": null,
+									"disabled": true
+								},
+								{
+									"key": "address",
+									"value": null,
+									"disabled": true
+								},
+								{
+									"key": "last_modified_by",
+									"value": null,
+									"disabled": true
+								},
+								{
+									"key": "username",
+									"value": "yramzy",
+									"disabled": true
+								}
+							]
+						},
+						"description": "Get all employees from the db filter by the request params"
+					},
+					"response": []
+				},
+				{
+					"name": "POST Employee",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"pm.environment.unset(\"global_id\");"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"const schema = {\r",
+									"    \"$schema\": \"http://json-schema.org/draft-07/schema\",\r",
+									"    \"$id\": \"#\",\r",
+									"    \"type\": \"object\",\r",
+									"    \"default\": {},\r",
+									"    \"required\": [],\r",
+									"    \"properties\": {\r",
+									"        \"data\": {\r",
+									"            \"$id\": \"##/properties/data\",\r",
+									"            \"type\": \"object\",\r",
+									"            \"default\": {},\r",
+									"            \"required\": [],\r",
+									"            \"properties\": {\r",
+									"                \"id\": {\r",
+									"                    \"$id\": \"##/properties/data/properties/id\",\r",
+									"                    \"type\": \"string\",\r",
+									"                    \"default\": \"\"\r",
+									"                },\r",
+									"                \"name\": {\r",
+									"                    \"$id\": \"##/properties/data/properties/name\",\r",
+									"                    \"type\": \"string\",\r",
+									"                    \"default\": \"\"\r",
+									"                },\r",
+									"                \"mobile_phone\": {\r",
+									"                    \"$id\": \"##/properties/data/properties/mobile_phone\",\r",
+									"                    \"type\": \"string\",\r",
+									"                    \"default\": \"\"\r",
+									"                },\r",
+									"                \"address\": {\r",
+									"                    \"$id\": \"##/properties/data/properties/address\",\r",
+									"                    \"type\": \"string\",\r",
+									"                    \"default\": \"\"\r",
+									"                },\r",
+									"                \"created_at\": {\r",
+									"                    \"$id\": \"##/properties/data/properties/created_at\",\r",
+									"                    \"type\": \"string\",\r",
+									"                    \"default\": \"\"\r",
+									"                },\r",
+									"                \"updated_at\": {\r",
+									"                    \"$id\": \"##/properties/data/properties/updated_at\",\r",
+									"                    \"type\": \"string\",\r",
+									"                    \"default\": \"\"\r",
+									"                },\r",
+									"                \"role\": {\r",
+									"                    \"$id\": \"##/properties/data/properties/role\",\r",
+									"                    \"type\": \"string\",\r",
+									"                    \"default\": \"\"\r",
+									"                },\r",
+									"                \"username\": {\r",
+									"                    \"$id\": \"##/properties/data/properties/username\",\r",
+									"                    \"type\": \"string\",\r",
+									"                    \"default\": \"\"\r",
+									"                }\r",
+									"            }\r",
+									"        }\r",
+									"    }\r",
+									"}\r",
+									"\r",
+									"pm.test('Schema is valid', function () {\r",
+									"    pm.expect(tv4.validate(pm.response.json(), schema));\r",
+									"});\r",
+									"\r",
+									"pm.environment.set(\"global_id\", pm.response.json().data.id);\r",
+									"\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"youssef badr\",\r\n    \"mobile_phone\": \"01234\",\r\n    \"address\": \"11 st\",\r\n    \"last_modified_by\": \"4d72719ffbf14b56b82d1b7119413a09\",\r\n    \"username\": \"yramzy111\",\r\n    \"password\": \"1234\",\r\n    \"role\": \"admin\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}:{{port}}/{{url_prefix}}/employees",
+							"host": [
+								"{{url}}"
+							],
+							"port": "{{port}}",
+							"path": [
+								"{{url_prefix}}",
+								"employees"
+							]
+						},
+						"description": "Post a new employee in the db with data in request body"
+					},
+					"response": []
+				},
+				{
+					"name": "PUT Employee",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"let schema = {\r",
+									"    \"$schema\": \"http://json-schema.org/draft-07/schema\",\r",
+									"    \"$id\": \"#\",\r",
+									"    \"type\": \"object\",\r",
+									"    \"default\": {},\r",
+									"    \"required\": [],\r",
+									"    \"properties\": {\r",
+									"        \"data\": {\r",
+									"            \"$id\": \"##/properties/data\",\r",
+									"            \"type\": \"object\",\r",
+									"            \"default\": {},\r",
+									"            \"required\": [],\r",
+									"            \"properties\": {\r",
+									"                \"id\": {\r",
+									"                    \"$id\": \"##/properties/data/properties/id\",\r",
+									"                    \"type\": \"string\",\r",
+									"                    \"default\": \"\"\r",
+									"                },\r",
+									"                \"name\": {\r",
+									"                    \"$id\": \"##/properties/data/properties/name\",\r",
+									"                    \"type\": \"string\",\r",
+									"                    \"default\": \"\"\r",
+									"                },\r",
+									"                \"description\": {\r",
+									"                    \"$id\": \"##/properties/data/properties/description\",\r",
+									"                    \"type\": \"string\",\r",
+									"                    \"default\": \"\"\r",
+									"                },\r",
+									"                \"last_modified_by\": {\r",
+									"                    \"$id\": \"##/properties/data/properties/last_modified_by\",\r",
+									"                    \"type\": \"string\",\r",
+									"                    \"default\": \"\"\r",
+									"                },\r",
+									"                \"created_at\": {\r",
+									"                    \"$id\": \"##/properties/data/properties/created_at\",\r",
+									"                    \"type\": \"string\",\r",
+									"                    \"default\": \"\"\r",
+									"                },\r",
+									"                \"updated_at\": {\r",
+									"                    \"$id\": \"##/properties/data/properties/updated_at\",\r",
+									"                    \"type\": \"string\",\r",
+									"                    \"default\": \"\"\r",
+									"                }\r",
+									"            }\r",
+									"        }\r",
+									"    }\r",
+									"}\r",
+									"\r",
+									"pm.test('Schema is valid', function () {\r",
+									"    pm.expect(tv4.validate(pm.response.json(), schema));\r",
+									"});\r",
+									"\r",
+									"pm.environment.set(\"global_id\", pm.response.json().data.id);\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"youssef badr\",\r\n    \"mobile_phone\": \"0123456\",\r\n    \"address\": \"11 st\",\r\n    \"last_modified_by\": \"4d72719ffbf14b56b82d1b7119413a09\",\r\n    \"username\": \"yramzy111\",\r\n    \"password\": \"1234\",\r\n    \"role\": \"admin\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}:{{port}}/{{url_prefix}}/employees/{{global_id}}",
+							"host": [
+								"{{url}}"
+							],
+							"port": "{{port}}",
+							"path": [
+								"{{url_prefix}}",
+								"employees",
+								"{{global_id}}"
+							]
+						},
+						"description": "Update a customer in the db filtered by an id in the url and updated by the request body"
+					},
+					"response": []
+				},
+				{
+					"name": "DELETE Employee",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"let schema = {\r",
+									"    \"$schema\": \"http://json-schema.org/draft-07/schema\",\r",
+									"    \"$id\": \"#\",\r",
+									"    \"type\": \"object\",\r",
+									"    \"default\": {},\r",
+									"    \"required\": [],\r",
+									"    \"properties\": {\r",
+									"        \"data\": {\r",
+									"            \"$id\": \"##/properties/data\",\r",
+									"            \"type\": \"string\",\r",
+									"            \"default\": \"\"\r",
+									"        }\r",
+									"    }\r",
+									"}\r",
+									"\r",
+									"pm.test('Schema is valid', function () {\r",
+									"    pm.expect(tv4.validate(pm.response.json(), schema));\r",
+									"});\r",
+									"\r",
+									"\r",
+									"pm.environment.unset(\"global_id\");\r",
+									"\r",
+									"\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}:{{port}}/{{url_prefix}}/employees/{{global_id}}",
+							"host": [
+								"{{url}}"
+							],
+							"port": "{{port}}",
+							"path": [
+								"{{url_prefix}}",
+								"employees",
+								"{{global_id}}"
+							]
+						},
+						"description": "Delete a employee in the db filtered by an id in the url"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Customers",
+			"item": [
+				{
+					"name": "GET Customers",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"const schema = \r",
+									"\r",
+									"{\r",
+									"    \"$schema\": \"http://json-schema.org/draft-07/schema\",\r",
+									"    \"$id\": \"http://example.com/example.json\",\r",
+									"    \"required\": [\r",
+									"        \"data\"\r",
+									"    ],\r",
+									"    \"properties\": {\r",
+									"        \"data\": {\r",
+									"            \"$id\": \"#/properties/data\",\r",
+									"            \"items\": {\r",
+									"                \"$id\": \"#/properties/data/items\",\r",
+									"                \"anyOf\": [\r",
+									"                    {\r",
+									"                        \"$id\": \"#/properties/data/items/anyOf/0\",\r",
+									"                        \"required\": [\r",
+									"                            \"id\",\r",
+									"                            \"name\",\r",
+									"                            \"mobile_phone\",\r",
+									"                            \"address\",\r",
+									"                            \"created_at\",\r",
+									"                            \"updated_at\",\r",
+									"                            \"last_modified_by\"\r",
+									"                        ],\r",
+									"                        \"properties\": {\r",
+									"                            \"id\": {\r",
+									"                                \"$id\": \"#/properties/data/items/anyOf/0/properties/id\"\r",
+									"                            },\r",
+									"                            \"name\": {\r",
+									"                                \"$id\": \"#/properties/data/items/anyOf/0/properties/name\"\r",
+									"                            },\r",
+									"                            \"mobile_phone\": {\r",
+									"                                \"$id\": \"#/properties/data/items/anyOf/0/properties/mobile_phone\"\r",
+									"                            },\r",
+									"                            \"address\": {\r",
+									"                                \"$id\": \"#/properties/data/items/anyOf/0/properties/address\"\r",
+									"                            },\r",
+									"                            \"created_at\": {\r",
+									"                                \"$id\": \"#/properties/data/items/anyOf/0/properties/created_at\"\r",
+									"                            },\r",
+									"                            \"updated_at\": {\r",
+									"                                \"$id\": \"#/properties/data/items/anyOf/0/properties/updated_at\"\r",
+									"                            },\r",
+									"                            \"last_modified_by\": {\r",
+									"                                \"$id\": \"#/properties/data/items/anyOf/0/properties/last_modified_by\"\r",
+									"                            }\r",
+									"                        }\r",
+									"                    }\r",
+									"                ]\r",
+									"            }\r",
+									"        }\r",
+									"    }\r",
+									"}\r",
+									"\r",
+									"pm.test('Schema is valid', function () {\r",
+									"    pm.expect(tv4.validate(pm.response.json(), schema));\r",
+									"});\r",
+									"\r",
+									"\r",
+									"pm.environment.set(\"customer_id\", pm.response.json().data[0].id);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}:{{port}}/{{url_prefix}}/customers",
+							"host": [
+								"{{url}}"
+							],
+							"port": "{{port}}",
+							"path": [
+								"{{url_prefix}}",
+								"customers"
+							],
+							"query": [
+								{
+									"key": "id",
+									"value": null,
+									"disabled": true
+								},
+								{
+									"key": "name",
+									"value": "",
+									"disabled": true
+								},
+								{
+									"key": "mobile_phone",
+									"value": null,
+									"disabled": true
+								},
+								{
+									"key": "address",
+									"value": null,
+									"disabled": true
+								},
+								{
+									"key": "last_modified_by",
+									"value": null,
+									"disabled": true
+								}
+							]
+						},
+						"description": "Get all customers from the db filter by the request params"
+					},
+					"response": []
+				},
+				{
+					"name": "POST Customer",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"pm.environment.unset(\"global_id\");"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"const schema = {\r",
+									"    \"$schema\": \"http://json-schema.org/draft-07/schema\",\r",
+									"    \"$id\": \"http://example.com/example.json\",\r",
+									"    \"required\": [\r",
+									"        \"data\"\r",
+									"    ],\r",
+									"    \"properties\": {\r",
+									"        \"data\": {\r",
+									"            \"$id\": \"#/properties/data\",\r",
+									"            \"required\": [\r",
+									"                \"id\",\r",
+									"                \"name\",\r",
+									"                \"mobile_phone\",\r",
+									"                \"address\",\r",
+									"                \"created_at\",\r",
+									"                \"updated_at\",\r",
+									"                \"last_modified_by\"\r",
+									"            ],\r",
+									"            \"properties\": {\r",
+									"                \"id\": {\r",
+									"                    \"$id\": \"#/properties/data/properties/id\"\r",
+									"                },\r",
+									"                \"name\": {\r",
+									"                    \"$id\": \"#/properties/data/properties/name\"\r",
+									"                },\r",
+									"                \"mobile_phone\": {\r",
+									"                    \"$id\": \"#/properties/data/properties/mobile_phone\"\r",
+									"                },\r",
+									"                \"address\": {\r",
+									"                    \"$id\": \"#/properties/data/properties/address\"\r",
+									"                },\r",
+									"                \"created_at\": {\r",
+									"                    \"$id\": \"#/properties/data/properties/created_at\"\r",
+									"                },\r",
+									"                \"updated_at\": {\r",
+									"                    \"$id\": \"#/properties/data/properties/updated_at\"\r",
+									"                },\r",
+									"                \"last_modified_by\": {\r",
+									"                    \"$id\": \"#/properties/data/properties/last_modified_by\"\r",
+									"                }\r",
+									"            }\r",
+									"        }\r",
+									"    }\r",
+									"}\r",
+									"\r",
+									"pm.test('Schema is valid', function () {\r",
+									"    pm.expect(tv4.validate(pm.response.json(), schema));\r",
+									"});\r",
+									"\r",
+									"pm.environment.set(\"global_id\", pm.response.json().data.id);\r",
+									"\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"morgan\",\r\n    \"mobile_phone\": \"01234655\",\r\n    \"address\": \"11 st\",\r\n    \"last_modified_by\": \"{{employee_id}}\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}:{{port}}/{{url_prefix}}/customers",
+							"host": [
+								"{{url}}"
+							],
+							"port": "{{port}}",
+							"path": [
+								"{{url_prefix}}",
+								"customers"
+							]
+						},
+						"description": "Post a new category in the db with data in request body"
+					},
+					"response": []
+				},
+				{
+					"name": "PUT Customer",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"let schema = {\r",
+									"    \"$schema\": \"http://json-schema.org/draft-07/schema\",\r",
+									"    \"$id\": \"http://example.com/example.json\",\r",
+									"    \"required\": [\r",
+									"        \"data\"\r",
+									"    ],\r",
+									"    \"properties\": {\r",
+									"        \"data\": {\r",
+									"            \"$id\": \"#/properties/data\",\r",
+									"            \"required\": [\r",
+									"                \"id\",\r",
+									"                \"name\",\r",
+									"                \"mobile_phone\",\r",
+									"                \"address\",\r",
+									"                \"created_at\",\r",
+									"                \"updated_at\",\r",
+									"                \"last_modified_by\"\r",
+									"            ],\r",
+									"            \"properties\": {\r",
+									"                \"id\": {\r",
+									"                    \"$id\": \"#/properties/data/properties/id\"\r",
+									"                },\r",
+									"                \"name\": {\r",
+									"                    \"$id\": \"#/properties/data/properties/name\"\r",
+									"                },\r",
+									"                \"mobile_phone\": {\r",
+									"                    \"$id\": \"#/properties/data/properties/mobile_phone\"\r",
+									"                },\r",
+									"                \"address\": {\r",
+									"                    \"$id\": \"#/properties/data/properties/address\"\r",
+									"                },\r",
+									"                \"created_at\": {\r",
+									"                    \"$id\": \"#/properties/data/properties/created_at\"\r",
+									"                },\r",
+									"                \"updated_at\": {\r",
+									"                    \"$id\": \"#/properties/data/properties/updated_at\"\r",
+									"                },\r",
+									"                \"last_modified_by\": {\r",
+									"                    \"$id\": \"#/properties/data/properties/last_modified_by\"\r",
+									"                }\r",
+									"            }\r",
+									"        }\r",
+									"    }\r",
+									"}\r",
+									"\r",
+									"\r",
+									"pm.test('Schema is valid', function () {\r",
+									"    pm.expect(tv4.validate(pm.response.json(), schema));\r",
+									"});\r",
+									"\r",
+									"pm.environment.set(\"global_id\", pm.response.json().data.id);\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"mobile_phone\": \"01234444\",\r\n    \"last_modified_by\": \"{{employee_id}}\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}:{{port}}/{{url_prefix}}/customers/{{global_id}}",
+							"host": [
+								"{{url}}"
+							],
+							"port": "{{port}}",
+							"path": [
+								"{{url_prefix}}",
+								"customers",
+								"{{global_id}}"
+							]
+						},
+						"description": "Update a customer in the db filtered by an id in the url and updated by the request body"
+					},
+					"response": []
+				},
+				{
+					"name": "DELETE Customer",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}:{{port}}/{{url_prefix}}/customers/{{global_id}}",
+							"host": [
+								"{{url}}"
+							],
+							"port": "{{port}}",
+							"path": [
+								"{{url_prefix}}",
+								"customers",
+								"{{global_id}}"
+							]
+						},
+						"description": "Delete a customer in the db filtered by an id in the url"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Categories",
+			"item": [
+				{
+					"name": "GET Categories",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"const schema = {\r",
+									"    \"$schema\": \"http://json-schema.org/draft-07/schema\",\r",
+									"    \"$id\": \"#\",\r",
+									"    \"type\": \"object\",\r",
+									"    \"default\": {},\r",
+									"    \"required\": [],\r",
+									"    \"properties\": {\r",
+									"        \"data\": {\r",
+									"            \"$id\": \"##/properties/data\",\r",
+									"            \"type\": \"array\",\r",
+									"            \"default\": [],\r",
+									"            \"items\": {\r",
+									"                \"$id\": \"##/properties/data/items\",\r",
+									"                \"anyOf\": [\r",
+									"                    {\r",
+									"                        \"$id\": \"##/properties/data/items/anyOf/0\",\r",
+									"                        \"type\": \"object\",\r",
+									"                        \"default\": {},\r",
+									"                        \"required\": [],\r",
+									"                        \"properties\": {\r",
+									"                            \"id\": {\r",
+									"                                \"$id\": \"##/properties/data/items/anyOf/0/properties/id\",\r",
+									"                                \"type\": \"string\",\r",
+									"                                \"default\": \"\"\r",
+									"                            },\r",
+									"                            \"name\": {\r",
+									"                                \"$id\": \"##/properties/data/items/anyOf/0/properties/name\",\r",
+									"                                \"type\": \"string\",\r",
+									"                                \"default\": \"\"\r",
+									"                            },\r",
+									"                            \"description\": {\r",
+									"                                \"$id\": \"##/properties/data/items/anyOf/0/properties/description\",\r",
+									"                                \"type\": \"string\",\r",
+									"                                \"default\": \"\"\r",
+									"                            },\r",
+									"                            \"last_modified_by\": {\r",
+									"                                \"$id\": \"##/properties/data/items/anyOf/0/properties/last_modified_by\",\r",
+									"                                \"type\": \"string\",\r",
+									"                                \"default\": \"\"\r",
+									"                            },\r",
+									"                            \"created_at\": {\r",
+									"                                \"$id\": \"##/properties/data/items/anyOf/0/properties/created_at\",\r",
+									"                                \"type\": \"string\",\r",
+									"                                \"default\": \"\"\r",
+									"                            },\r",
+									"                            \"updated_at\": {\r",
+									"                                \"$id\": \"##/properties/data/items/anyOf/0/properties/updated_at\",\r",
+									"                                \"type\": \"string\",\r",
+									"                                \"default\": \"\"\r",
+									"                            }\r",
+									"                        }\r",
+									"                    }\r",
+									"                ]\r",
+									"            }\r",
+									"        }\r",
+									"    }\r",
+									"}\r",
+									"\r",
+									"pm.test('Schema is valid', function () {\r",
+									"    pm.expect(tv4.validate(pm.response.json(), schema));\r",
+									"});\r",
+									"\r",
+									"pm.environment.set(\"category_id\", pm.response.json().data[0].id);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}:{{port}}/{{url_prefix}}/categories",
+							"host": [
+								"{{url}}"
+							],
+							"port": "{{port}}",
+							"path": [
+								"{{url_prefix}}",
+								"categories"
+							],
+							"query": [
+								{
+									"key": "id",
+									"value": null,
+									"disabled": true
+								},
+								{
+									"key": "name",
+									"value": "chips",
+									"disabled": true
+								},
+								{
+									"key": "description",
+									"value": null,
+									"disabled": true
+								},
+								{
+									"key": "last_modified_by",
+									"value": null,
+									"disabled": true
+								}
+							]
+						},
+						"description": "Get all categories from the db filter by the request params variablea"
+					},
+					"response": []
+				},
+				{
+					"name": "POST Category",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"const schema = {\r",
+									"    \"$schema\": \"http://json-schema.org/draft-07/schema\",\r",
+									"    \"$id\": \"#\",\r",
+									"    \"type\": \"object\",\r",
+									"    \"default\": {},\r",
+									"    \"required\": [],\r",
+									"    \"properties\": {\r",
+									"        \"data\": {\r",
+									"            \"$id\": \"##/properties/data\",\r",
+									"            \"type\": \"object\",\r",
+									"            \"default\": {},\r",
+									"            \"required\": [],\r",
+									"            \"properties\": {\r",
+									"                \"id\": {\r",
+									"                    \"$id\": \"##/properties/data/properties/id\",\r",
+									"                    \"type\": \"string\",\r",
+									"                    \"default\": \"\"\r",
+									"                },\r",
+									"                \"name\": {\r",
+									"                    \"$id\": \"##/properties/data/properties/name\",\r",
+									"                    \"type\": \"string\",\r",
+									"                    \"default\": \"\"\r",
+									"                },\r",
+									"                \"description\": {\r",
+									"                    \"$id\": \"##/properties/data/properties/description\",\r",
+									"                    \"type\": \"string\",\r",
+									"                    \"default\": \"\"\r",
+									"                },\r",
+									"                \"last_modified_by\": {\r",
+									"                    \"$id\": \"##/properties/data/properties/last_modified_by\",\r",
+									"                    \"type\": \"string\",\r",
+									"                    \"default\": \"\"\r",
+									"                },\r",
+									"                \"created_at\": {\r",
+									"                    \"$id\": \"##/properties/data/properties/created_at\",\r",
+									"                    \"type\": \"string\",\r",
+									"                    \"default\": \"\"\r",
+									"                },\r",
+									"                \"updated_at\": {\r",
+									"                    \"$id\": \"##/properties/data/properties/updated_at\",\r",
+									"                    \"type\": \"string\",\r",
+									"                    \"default\": \"\"\r",
+									"                }\r",
+									"            }\r",
+									"        }\r",
+									"    }\r",
+									"}\r",
+									"\r",
+									"pm.test('Schema is valid', function () {\r",
+									"    pm.expect(tv4.validate(pm.response.json(), schema));\r",
+									"});\r",
+									"\r",
+									"pm.environment.set(\"global_id\", pm.response.json().data.id);\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"pm.environment.unset(\"global_id\");"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"eggs\",\r\n    \"description\": \"all kinds of eggs\",\r\n    \"last_modified_by\": \"{{employee_id}}\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}:{{port}}/{{url_prefix}}/categories",
+							"host": [
+								"{{url}}"
+							],
+							"port": "{{port}}",
+							"path": [
+								"{{url_prefix}}",
+								"categories"
+							]
+						},
+						"description": "Post a new category in the db with the data in request body"
+					},
+					"response": []
+				},
+				{
+					"name": "PUT Category",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"let schema = {\r",
+									"    \"$schema\": \"http://json-schema.org/draft-07/schema\",\r",
+									"    \"$id\": \"#\",\r",
+									"    \"type\": \"object\",\r",
+									"    \"default\": {},\r",
+									"    \"required\": [],\r",
+									"    \"properties\": {\r",
+									"        \"data\": {\r",
+									"            \"$id\": \"##/properties/data\",\r",
+									"            \"type\": \"object\",\r",
+									"            \"default\": {},\r",
+									"            \"required\": [],\r",
+									"            \"properties\": {\r",
+									"                \"id\": {\r",
+									"                    \"$id\": \"##/properties/data/properties/id\",\r",
+									"                    \"type\": \"string\",\r",
+									"                    \"default\": \"\"\r",
+									"                },\r",
+									"                \"name\": {\r",
+									"                    \"$id\": \"##/properties/data/properties/name\",\r",
+									"                    \"type\": \"string\",\r",
+									"                    \"default\": \"\"\r",
+									"                },\r",
+									"                \"description\": {\r",
+									"                    \"$id\": \"##/properties/data/properties/description\",\r",
+									"                    \"type\": \"string\",\r",
+									"                    \"default\": \"\"\r",
+									"                },\r",
+									"                \"last_modified_by\": {\r",
+									"                    \"$id\": \"##/properties/data/properties/last_modified_by\",\r",
+									"                    \"type\": \"string\",\r",
+									"                    \"default\": \"\"\r",
+									"                },\r",
+									"                \"created_at\": {\r",
+									"                    \"$id\": \"##/properties/data/properties/created_at\",\r",
+									"                    \"type\": \"string\",\r",
+									"                    \"default\": \"\"\r",
+									"                },\r",
+									"                \"updated_at\": {\r",
+									"                    \"$id\": \"##/properties/data/properties/updated_at\",\r",
+									"                    \"type\": \"string\",\r",
+									"                    \"default\": \"\"\r",
+									"                }\r",
+									"            }\r",
+									"        }\r",
+									"    }\r",
+									"}\r",
+									"\r",
+									"pm.test('Schema is valid', function () {\r",
+									"    pm.expect(tv4.validate(pm.response.json(), schema));\r",
+									"});\r",
+									"\r",
+									"pm.environment.set(\"global_id\", pm.response.json().data.id);\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"eggs\",\r\n    \"description\": \"all kinds of good eggs\",\r\n    \"last_modified_by\": \"{{employee_id}}\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}:{{port}}/{{url_prefix}}/categories/{{global_id}}",
+							"host": [
+								"{{url}}"
+							],
+							"port": "{{port}}",
+							"path": [
+								"{{url_prefix}}",
+								"categories",
+								"{{global_id}}"
+							]
+						},
+						"description": "Update a category in the db filtered by id in the request url and data in the request body"
+					},
+					"response": []
+				},
+				{
+					"name": "DELETE Category",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"let schema = {\r",
+									"    \"$schema\": \"http://json-schema.org/draft-07/schema\",\r",
+									"    \"$id\": \"#\",\r",
+									"    \"type\": \"object\",\r",
+									"    \"default\": {},\r",
+									"    \"required\": [],\r",
+									"    \"properties\": {\r",
+									"        \"data\": {\r",
+									"            \"$id\": \"##/properties/data\",\r",
+									"            \"type\": \"string\",\r",
+									"            \"default\": \"\"\r",
+									"        }\r",
+									"    }\r",
+									"}\r",
+									"\r",
+									"pm.test('Schema is valid', function () {\r",
+									"    pm.expect(tv4.validate(pm.response.json(), schema));\r",
+									"});\r",
+									"\r",
+									"\r",
+									"pm.environment.unset(\"global_id\");\r",
+									"\r",
+									"\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}:{{port}}/{{url_prefix}}/categories/{{global_id}}",
+							"host": [
+								"{{url}}"
+							],
+							"port": "{{port}}",
+							"path": [
+								"{{url_prefix}}",
+								"categories",
+								"{{global_id}}"
+							]
+						},
+						"description": "Delete a category in the db filtered by id in the request url"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Products",
+			"item": [
+				{
+					"name": "GET Products",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"const schema = {\r",
+									"    \"$schema\": \"http://json-schema.org/draft-07/schema\",\r",
+									"    \"$id\": \"#\",\r",
+									"    \"type\": \"object\",\r",
+									"    \"default\": {},\r",
+									"    \"required\": [],\r",
+									"    \"properties\": {\r",
+									"        \"data\": {\r",
+									"            \"$id\": \"##/properties/data\",\r",
+									"            \"type\": \"array\",\r",
+									"            \"default\": [],\r",
+									"            \"items\": {\r",
+									"                \"$id\": \"##/properties/data/items\",\r",
+									"                \"anyOf\": [\r",
+									"                    {\r",
+									"                        \"$id\": \"##/properties/data/items/anyOf/0\",\r",
+									"                        \"type\": \"object\",\r",
+									"                        \"default\": {},\r",
+									"                        \"required\": [],\r",
+									"                        \"properties\": {\r",
+									"                            \"id\": {\r",
+									"                                \"$id\": \"##/properties/data/items/anyOf/0/properties/id\",\r",
+									"                                \"type\": \"string\",\r",
+									"                                \"default\": \"\"\r",
+									"                            },\r",
+									"                            \"name\": {\r",
+									"                                \"$id\": \"##/properties/data/items/anyOf/0/properties/name\",\r",
+									"                                \"type\": \"string\",\r",
+									"                                \"default\": \"\"\r",
+									"                            },\r",
+									"                            \"description\": {\r",
+									"                                \"$id\": \"##/properties/data/items/anyOf/0/properties/description\",\r",
+									"                                \"type\": \"string\",\r",
+									"                                \"default\": \"\"\r",
+									"                            },\r",
+									"                            \"par_code\": {\r",
+									"                                \"$id\": \"##/properties/data/items/anyOf/0/properties/par_code\",\r",
+									"                                \"type\": \"string\",\r",
+									"                                \"default\": \"\"\r",
+									"                            },\r",
+									"                            \"price\": {\r",
+									"                                \"$id\": \"##/properties/data/items/anyOf/0/properties/price\",\r",
+									"                                \"type\": \"number\",\r",
+									"                                \"default\": 0.0\r",
+									"                            },\r",
+									"                            \"created_at\": {\r",
+									"                                \"$id\": \"##/properties/data/items/anyOf/0/properties/created_at\",\r",
+									"                                \"type\": \"string\",\r",
+									"                                \"default\": \"\"\r",
+									"                            },\r",
+									"                            \"updated_at\": {\r",
+									"                                \"$id\": \"##/properties/data/items/anyOf/0/properties/updated_at\",\r",
+									"                                \"type\": \"string\",\r",
+									"                                \"default\": \"\"\r",
+									"                            },\r",
+									"                            \"last_modified_by\": {\r",
+									"                                \"$id\": \"##/properties/data/items/anyOf/0/properties/last_modified_by\",\r",
+									"                                \"type\": \"string\",\r",
+									"                                \"default\": \"\"\r",
+									"                            },\r",
+									"                            \"category_id\": {\r",
+									"                                \"$id\": \"##/properties/data/items/anyOf/0/properties/category_id\",\r",
+									"                                \"type\": \"string\",\r",
+									"                                \"default\": \"\"\r",
+									"                            }\r",
+									"                        }\r",
+									"                    }\r",
+									"                ]\r",
+									"            }\r",
+									"        }\r",
+									"    }\r",
+									"}\r",
+									"pm.test('Schema is valid', function () {\r",
+									"    pm.expect(tv4.validate(pm.response.json(), schema));\r",
+									"});\r",
+									"\r",
+									"pm.environment.set(\"product_id\", pm.response.json().data[0].id);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}:{{port}}/{{url_prefix}}/products",
+							"host": [
+								"{{url}}"
+							],
+							"port": "{{port}}",
+							"path": [
+								"{{url_prefix}}",
+								"products"
+							],
+							"query": [
+								{
+									"key": "id",
+									"value": null,
+									"disabled": true
+								},
+								{
+									"key": "name",
+									"value": "",
+									"disabled": true
+								},
+								{
+									"key": "description",
+									"value": null,
+									"disabled": true
+								},
+								{
+									"key": "par_code",
+									"value": null,
+									"disabled": true
+								},
+								{
+									"key": "price",
+									"value": null,
+									"disabled": true
+								},
+								{
+									"key": "last_modified_by",
+									"value": null,
+									"disabled": true
+								},
+								{
+									"key": "category_id",
+									"value": null,
+									"disabled": true
+								}
+							]
+						},
+						"description": "Get all products from the db filter by the request params"
+					},
+					"response": []
+				},
+				{
+					"name": "POST Prodcut",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"pm.environment.unset(\"global_id\");"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"const schema = {\r",
+									"    \"$schema\": \"http://json-schema.org/draft-07/schema\",\r",
+									"    \"$id\": \"#\",\r",
+									"    \"type\": \"object\",\r",
+									"    \"default\": {},\r",
+									"    \"required\": [],\r",
+									"    \"properties\": {\r",
+									"        \"data\": {\r",
+									"            \"$id\": \"##/properties/data\",\r",
+									"            \"type\": \"object\",\r",
+									"            \"default\": {},\r",
+									"            \"required\": [],\r",
+									"            \"properties\": {\r",
+									"                \"id\": {\r",
+									"                    \"$id\": \"##/properties/data/properties/id\",\r",
+									"                    \"type\": \"string\",\r",
+									"                    \"default\": \"\"\r",
+									"                },\r",
+									"                \"name\": {\r",
+									"                    \"$id\": \"##/properties/data/properties/name\",\r",
+									"                    \"type\": \"string\",\r",
+									"                    \"default\": \"\"\r",
+									"                },\r",
+									"                \"description\": {\r",
+									"                    \"$id\": \"##/properties/data/properties/description\",\r",
+									"                    \"type\": \"string\",\r",
+									"                    \"default\": \"\"\r",
+									"                },\r",
+									"                \"par_code\": {\r",
+									"                    \"$id\": \"##/properties/data/properties/par_code\",\r",
+									"                    \"type\": \"string\",\r",
+									"                    \"default\": \"\"\r",
+									"                },\r",
+									"                \"price\": {\r",
+									"                    \"$id\": \"##/properties/data/properties/price\",\r",
+									"                    \"type\": \"integer\",\r",
+									"                    \"default\": 0\r",
+									"                },\r",
+									"                \"created_at\": {\r",
+									"                    \"$id\": \"##/properties/data/properties/created_at\",\r",
+									"                    \"type\": \"string\",\r",
+									"                    \"default\": \"\"\r",
+									"                },\r",
+									"                \"updated_at\": {\r",
+									"                    \"$id\": \"##/properties/data/properties/updated_at\",\r",
+									"                    \"type\": \"string\",\r",
+									"                    \"default\": \"\"\r",
+									"                },\r",
+									"                \"last_modified_by\": {\r",
+									"                    \"$id\": \"##/properties/data/properties/last_modified_by\",\r",
+									"                    \"type\": \"string\",\r",
+									"                    \"default\": \"\"\r",
+									"                },\r",
+									"                \"category_id\": {\r",
+									"                    \"$id\": \"##/properties/data/properties/category_id\",\r",
+									"                    \"type\": \"string\",\r",
+									"                    \"default\": \"\"\r",
+									"                }\r",
+									"            }\r",
+									"        }\r",
+									"    }\r",
+									"}\r",
+									"\r",
+									"pm.test('Schema is valid', function () {\r",
+									"    pm.expect(tv4.validate(pm.response.json(), schema));\r",
+									"});\r",
+									"\r",
+									"pm.environment.set(\"global_id\", pm.response.json().data.id);\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"chipsy 5al\",\r\n    \"description\": \"chipsy 5al\",\r\n    \"par_code\": \"111222444\",\r\n    \"price\": 5,\r\n    \"category_id\": \"{{category_id}}\",\r\n    \"last_modified_by\": \"{{employee_id}}\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}:{{port}}/{{url_prefix}}/products",
+							"host": [
+								"{{url}}"
+							],
+							"port": "{{port}}",
+							"path": [
+								"{{url_prefix}}",
+								"products"
+							]
+						},
+						"description": "Post a new product in the db with data in request body"
+					},
+					"response": []
+				},
+				{
+					"name": "PUT Product",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"let schema = {\r",
+									"    \"$schema\": \"http://json-schema.org/draft-07/schema\",\r",
+									"    \"$id\": \"#\",\r",
+									"    \"type\": \"object\",\r",
+									"    \"default\": {},\r",
+									"    \"required\": [],\r",
+									"    \"properties\": {\r",
+									"        \"data\": {\r",
+									"            \"$id\": \"##/properties/data\",\r",
+									"            \"type\": \"object\",\r",
+									"            \"default\": {},\r",
+									"            \"required\": [],\r",
+									"            \"properties\": {\r",
+									"                \"id\": {\r",
+									"                    \"$id\": \"##/properties/data/properties/id\",\r",
+									"                    \"type\": \"string\",\r",
+									"                    \"default\": \"\"\r",
+									"                },\r",
+									"                \"name\": {\r",
+									"                    \"$id\": \"##/properties/data/properties/name\",\r",
+									"                    \"type\": \"string\",\r",
+									"                    \"default\": \"\"\r",
+									"                },\r",
+									"                \"description\": {\r",
+									"                    \"$id\": \"##/properties/data/properties/description\",\r",
+									"                    \"type\": \"string\",\r",
+									"                    \"default\": \"\"\r",
+									"                },\r",
+									"                \"par_code\": {\r",
+									"                    \"$id\": \"##/properties/data/properties/par_code\",\r",
+									"                    \"type\": \"string\",\r",
+									"                    \"default\": \"\"\r",
+									"                },\r",
+									"                \"price\": {\r",
+									"                    \"$id\": \"##/properties/data/properties/price\",\r",
+									"                    \"type\": \"number\",\r",
+									"                    \"default\": 0.0\r",
+									"                },\r",
+									"                \"created_at\": {\r",
+									"                    \"$id\": \"##/properties/data/properties/created_at\",\r",
+									"                    \"type\": \"string\",\r",
+									"                    \"default\": \"\"\r",
+									"                },\r",
+									"                \"updated_at\": {\r",
+									"                    \"$id\": \"##/properties/data/properties/updated_at\",\r",
+									"                    \"type\": \"string\",\r",
+									"                    \"default\": \"\"\r",
+									"                },\r",
+									"                \"last_modified_by\": {\r",
+									"                    \"$id\": \"##/properties/data/properties/last_modified_by\",\r",
+									"                    \"type\": \"string\",\r",
+									"                    \"default\": \"\"\r",
+									"                },\r",
+									"                \"category_id\": {\r",
+									"                    \"$id\": \"##/properties/data/properties/category_id\",\r",
+									"                    \"type\": \"string\",\r",
+									"                    \"default\": \"\"\r",
+									"                }\r",
+									"            }\r",
+									"        }\r",
+									"    }\r",
+									"}\r",
+									"\r",
+									"pm.test('Schema is valid', function () {\r",
+									"    pm.expect(tv4.validate(pm.response.json(), schema));\r",
+									"});\r",
+									"\r",
+									"pm.environment.set(\"global_id\", pm.response.json().data.id);\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"price\": 15.3,\r\n    \"last_modified_by\": \"{{employee_id}}\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}:{{port}}/{{url_prefix}}/products/{{global_id}}",
+							"host": [
+								"{{url}}"
+							],
+							"port": "{{port}}",
+							"path": [
+								"{{url_prefix}}",
+								"products",
+								"{{global_id}}"
+							]
+						},
+						"description": "Update a product in the db filtered by an id in the url and updated by the request body"
+					},
+					"response": []
+				},
+				{
+					"name": "DELETE Product",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"let schema = {\r",
+									"    \"$schema\": \"http://json-schema.org/draft-07/schema\",\r",
+									"    \"$id\": \"#\",\r",
+									"    \"type\": \"object\",\r",
+									"    \"default\": {},\r",
+									"    \"required\": [],\r",
+									"    \"properties\": {\r",
+									"        \"data\": {\r",
+									"            \"$id\": \"##/properties/data\",\r",
+									"            \"type\": \"string\",\r",
+									"            \"default\": \"\"\r",
+									"        }\r",
+									"    }\r",
+									"}\r",
+									"\r",
+									"pm.test('Schema is valid', function () {\r",
+									"    pm.expect(tv4.validate(pm.response.json(), schema));\r",
+									"});\r",
+									"\r",
+									"\r",
+									"pm.environment.unset(\"global_id\");\r",
+									"\r",
+									"\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}:{{port}}/{{url_prefix}}/products/{{global_id}}",
+							"host": [
+								"{{url}}"
+							],
+							"port": "{{port}}",
+							"path": [
+								"{{url_prefix}}",
+								"products",
+								"{{global_id}}"
+							]
+						},
+						"description": "Delete a prodcut in the db filtered by an id in the url"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Suppliers",
+			"item": [
+				{
+					"name": "GET Suppliers",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"const schema = {\r",
+									"    \"$schema\": \"http://json-schema.org/draft-07/schema\",\r",
+									"    \"$id\": \"http://example.com/example.json\",\r",
+									"    \"required\": [\r",
+									"        \"data\"\r",
+									"    ],\r",
+									"    \"properties\": {\r",
+									"        \"data\": {\r",
+									"            \"$id\": \"#/properties/data\",\r",
+									"            \"items\": {\r",
+									"                \"$id\": \"#/properties/data/items\",\r",
+									"                \"anyOf\": [\r",
+									"                    {\r",
+									"                        \"$id\": \"#/properties/data/items/anyOf/0\",\r",
+									"                        \"required\": [\r",
+									"                            \"id\",\r",
+									"                            \"name\",\r",
+									"                            \"mobile_phone\",\r",
+									"                            \"email\",\r",
+									"                            \"address\",\r",
+									"                            \"created_at\",\r",
+									"                            \"updated_at\",\r",
+									"                            \"last_modified_by\"\r",
+									"                        ],\r",
+									"                        \"properties\": {\r",
+									"                            \"id\": {\r",
+									"                                \"$id\": \"#/properties/data/items/anyOf/0/properties/id\"\r",
+									"                            },\r",
+									"                            \"name\": {\r",
+									"                                \"$id\": \"#/properties/data/items/anyOf/0/properties/name\"\r",
+									"                            },\r",
+									"                            \"mobile_phone\": {\r",
+									"                                \"$id\": \"#/properties/data/items/anyOf/0/properties/mobile_phone\"\r",
+									"                            },\r",
+									"                            \"email\": {\r",
+									"                                \"$id\": \"#/properties/data/items/anyOf/0/properties/email\"\r",
+									"                            },\r",
+									"                            \"address\": {\r",
+									"                                \"$id\": \"#/properties/data/items/anyOf/0/properties/address\"\r",
+									"                            },\r",
+									"                            \"created_at\": {\r",
+									"                                \"$id\": \"#/properties/data/items/anyOf/0/properties/created_at\"\r",
+									"                            },\r",
+									"                            \"updated_at\": {\r",
+									"                                \"$id\": \"#/properties/data/items/anyOf/0/properties/updated_at\"\r",
+									"                            },\r",
+									"                            \"last_modified_by\": {\r",
+									"                                \"$id\": \"#/properties/data/items/anyOf/0/properties/last_modified_by\"\r",
+									"                            }\r",
+									"                        }\r",
+									"                    }\r",
+									"                ]\r",
+									"            }\r",
+									"        }\r",
+									"    }\r",
+									"}\r",
+									"\r",
+									"pm.test('Schema is valid', function () {\r",
+									"    pm.expect(tv4.validate(pm.response.json(), schema));\r",
+									"});\r",
+									"\r",
+									"pm.environment.set(\"supplier_id\", pm.response.json().data[0].id);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}:{{port}}/{{url_prefix}}/suppliers",
+							"host": [
+								"{{url}}"
+							],
+							"port": "{{port}}",
+							"path": [
+								"{{url_prefix}}",
+								"suppliers"
+							],
+							"query": [
+								{
+									"key": "id",
+									"value": null,
+									"disabled": true
+								},
+								{
+									"key": "name",
+									"value": "",
+									"disabled": true
+								},
+								{
+									"key": "last_modified_by",
+									"value": null,
+									"disabled": true
+								},
+								{
+									"key": "mobile_phone",
+									"value": null,
+									"disabled": true
+								},
+								{
+									"key": "address",
+									"value": null,
+									"disabled": true
+								},
+								{
+									"key": "email",
+									"value": null,
+									"disabled": true
+								}
+							]
+						},
+						"description": "Get all stocks from the db filter by the request params"
+					},
+					"response": []
+				},
+				{
+					"name": "POST Supplier",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"pm.environment.unset(\"global_id\");"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"const schema = {\r",
+									"    \"$schema\": \"http://json-schema.org/draft-07/schema\",\r",
+									"    \"$id\": \"http://example.com/example.json\",\r",
+									"    \"required\": [\r",
+									"        \"data\"\r",
+									"    ],\r",
+									"    \"properties\": {\r",
+									"        \"data\": {\r",
+									"            \"$id\": \"#/properties/data\",\r",
+									"            \"required\": [\r",
+									"                \"id\",\r",
+									"                \"name\",\r",
+									"                \"mobile_phone\",\r",
+									"                \"email\",\r",
+									"                \"address\",\r",
+									"                \"created_at\",\r",
+									"                \"updated_at\",\r",
+									"                \"last_modified_by\"\r",
+									"            ],\r",
+									"            \"properties\": {\r",
+									"                \"id\": {\r",
+									"                    \"$id\": \"#/properties/data/properties/id\"\r",
+									"                },\r",
+									"                \"name\": {\r",
+									"                    \"$id\": \"#/properties/data/properties/name\"\r",
+									"                },\r",
+									"                \"mobile_phone\": {\r",
+									"                    \"$id\": \"#/properties/data/properties/mobile_phone\"\r",
+									"                },\r",
+									"                \"email\": {\r",
+									"                    \"$id\": \"#/properties/data/properties/email\"\r",
+									"                },\r",
+									"                \"address\": {\r",
+									"                    \"$id\": \"#/properties/data/properties/address\"\r",
+									"                },\r",
+									"                \"created_at\": {\r",
+									"                    \"$id\": \"#/properties/data/properties/created_at\"\r",
+									"                },\r",
+									"                \"updated_at\": {\r",
+									"                    \"$id\": \"#/properties/data/properties/updated_at\"\r",
+									"                },\r",
+									"                \"last_modified_by\": {\r",
+									"                    \"$id\": \"#/properties/data/properties/last_modified_by\"\r",
+									"                }\r",
+									"            }\r",
+									"        }\r",
+									"    }\r",
+									"}\r",
+									"pm.test('Schema is valid', function () {\r",
+									"    pm.expect(tv4.validate(pm.response.json(), schema));\r",
+									"});\r",
+									"\r",
+									"pm.environment.set(\"global_id\", pm.response.json().data.id);\r",
+									"\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"entag masr\",\r\n    \"mobile_phone\": \"133641212\",\r\n    \"address\": \"112233 st\",\r\n    \"email\": \"yramzy@gmail.com\",\r\n    \"last_modified_by\": \"{{employee_id}}\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}:{{port}}/{{url_prefix}}/suppliers",
+							"host": [
+								"{{url}}"
+							],
+							"port": "{{port}}",
+							"path": [
+								"{{url_prefix}}",
+								"suppliers"
+							]
+						},
+						"description": "Post a new supplier in the db with data in request body"
+					},
+					"response": []
+				},
+				{
+					"name": "PUT Supplier",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"const schema = {\r",
+									"    \"$schema\": \"http://json-schema.org/draft-07/schema\",\r",
+									"    \"$id\": \"http://example.com/example.json\",\r",
+									"    \"required\": [\r",
+									"        \"data\"\r",
+									"    ],\r",
+									"    \"properties\": {\r",
+									"        \"data\": {\r",
+									"            \"$id\": \"#/properties/data\",\r",
+									"            \"required\": [\r",
+									"                \"id\",\r",
+									"                \"name\",\r",
+									"                \"mobile_phone\",\r",
+									"                \"email\",\r",
+									"                \"address\",\r",
+									"                \"created_at\",\r",
+									"                \"updated_at\",\r",
+									"                \"last_modified_by\"\r",
+									"            ],\r",
+									"            \"properties\": {\r",
+									"                \"id\": {\r",
+									"                    \"$id\": \"#/properties/data/properties/id\"\r",
+									"                },\r",
+									"                \"name\": {\r",
+									"                    \"$id\": \"#/properties/data/properties/name\"\r",
+									"                },\r",
+									"                \"mobile_phone\": {\r",
+									"                    \"$id\": \"#/properties/data/properties/mobile_phone\"\r",
+									"                },\r",
+									"                \"email\": {\r",
+									"                    \"$id\": \"#/properties/data/properties/email\"\r",
+									"                },\r",
+									"                \"address\": {\r",
+									"                    \"$id\": \"#/properties/data/properties/address\"\r",
+									"                },\r",
+									"                \"created_at\": {\r",
+									"                    \"$id\": \"#/properties/data/properties/created_at\"\r",
+									"                },\r",
+									"                \"updated_at\": {\r",
+									"                    \"$id\": \"#/properties/data/properties/updated_at\"\r",
+									"                },\r",
+									"                \"last_modified_by\": {\r",
+									"                    \"$id\": \"#/properties/data/properties/last_modified_by\"\r",
+									"                }\r",
+									"            }\r",
+									"        }\r",
+									"    }\r",
+									"}\r",
+									"pm.test('Schema is valid', function () {\r",
+									"    pm.expect(tv4.validate(pm.response.json(), schema));\r",
+									"});\r",
+									"\r",
+									"pm.environment.set(\"global_id\", pm.response.json().data.id);\r",
+									"\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"address\": \"112233333 st\",\r\n    \"last_modified_by\": \"{{employee_id}}\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}:{{port}}/{{url_prefix}}/suppliers/{{global_id}}",
+							"host": [
+								"{{url}}"
+							],
+							"port": "{{port}}",
+							"path": [
+								"{{url_prefix}}",
+								"suppliers",
+								"{{global_id}}"
+							]
+						},
+						"description": "Update a supplier in the db filtered by an id in the url and updated by the request body"
+					},
+					"response": []
+				},
+				{
+					"name": "DELETE Supplier",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"let schema = {\r",
+									"    \"$schema\": \"http://json-schema.org/draft-07/schema\",\r",
+									"    \"$id\": \"#\",\r",
+									"    \"type\": \"object\",\r",
+									"    \"default\": {},\r",
+									"    \"required\": [],\r",
+									"    \"properties\": {\r",
+									"        \"data\": {\r",
+									"            \"$id\": \"##/properties/data\",\r",
+									"            \"type\": \"string\",\r",
+									"            \"default\": \"\"\r",
+									"        }\r",
+									"    }\r",
+									"}\r",
+									"\r",
+									"pm.test('Schema is valid', function () {\r",
+									"    pm.expect(tv4.validate(pm.response.json(), schema));\r",
+									"});\r",
+									"\r",
+									"\r",
+									"pm.environment.unset(\"global_id\");\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}:{{port}}/{{url_prefix}}/suppliers/{{global_id}}",
+							"host": [
+								"{{url}}"
+							],
+							"port": "{{port}}",
+							"path": [
+								"{{url_prefix}}",
+								"suppliers",
+								"{{global_id}}"
+							]
+						},
+						"description": "Delete a supplier in the db filtered by an id in the url"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Stocks",
+			"item": [
+				{
+					"name": "GET Stocks",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"const schema = {\r",
+									"    \"$schema\": \"http://json-schema.org/draft-07/schema\",\r",
+									"    \"$id\": \"#\",\r",
+									"    \"type\": \"object\",\r",
+									"    \"default\": {},\r",
+									"    \"required\": [],\r",
+									"    \"properties\": {\r",
+									"        \"data\": {\r",
+									"            \"$id\": \"##/properties/data\",\r",
+									"            \"type\": \"array\",\r",
+									"            \"default\": [],\r",
+									"            \"items\": {\r",
+									"                \"$id\": \"##/properties/data/items\",\r",
+									"                \"anyOf\": [\r",
+									"                    {\r",
+									"                        \"$id\": \"##/properties/data/items/anyOf/0\",\r",
+									"                        \"type\": \"object\",\r",
+									"                        \"default\": {},\r",
+									"                        \"required\": [],\r",
+									"                        \"properties\": {\r",
+									"                            \"id\": {\r",
+									"                                \"$id\": \"##/properties/data/items/anyOf/0/properties/id\",\r",
+									"                                \"type\": \"string\",\r",
+									"                                \"default\": \"\"\r",
+									"                            },\r",
+									"                            \"quantity\": {\r",
+									"                                \"$id\": \"##/properties/data/items/anyOf/0/properties/quantity\",\r",
+									"                                \"type\": \"integer\",\r",
+									"                                \"default\": 0\r",
+									"                            },\r",
+									"                            \"retail_price\": {\r",
+									"                                \"$id\": \"##/properties/data/items/anyOf/0/properties/retail_price\",\r",
+									"                                \"type\": \"number\",\r",
+									"                                \"default\": 0.0\r",
+									"                            },\r",
+									"                            \"created_at\": {\r",
+									"                                \"$id\": \"##/properties/data/items/anyOf/0/properties/created_at\",\r",
+									"                                \"type\": \"string\",\r",
+									"                                \"default\": \"\"\r",
+									"                            },\r",
+									"                            \"updated_at\": {\r",
+									"                                \"$id\": \"##/properties/data/items/anyOf/0/properties/updated_at\",\r",
+									"                                \"type\": \"string\",\r",
+									"                                \"default\": \"\"\r",
+									"                            },\r",
+									"                            \"last_modified_by\": {\r",
+									"                                \"$id\": \"##/properties/data/items/anyOf/0/properties/last_modified_by\",\r",
+									"                                \"type\": \"string\",\r",
+									"                                \"default\": \"\"\r",
+									"                            },\r",
+									"                            \"product_id\": {\r",
+									"                                \"$id\": \"##/properties/data/items/anyOf/0/properties/product_id\",\r",
+									"                                \"type\": \"string\",\r",
+									"                                \"default\": \"\"\r",
+									"                            },\r",
+									"                            \"supplier_id\": {\r",
+									"                                \"$id\": \"##/properties/data/items/anyOf/0/properties/supplier_id\",\r",
+									"                                \"type\": \"string\",\r",
+									"                                \"default\": \"\"\r",
+									"                            }\r",
+									"                        }\r",
+									"                    }\r",
+									"                ]\r",
+									"            }\r",
+									"        }\r",
+									"    }\r",
+									"}\r",
+									"\r",
+									"pm.test('Schema is valid', function () {\r",
+									"    pm.expect(tv4.validate(pm.response.json(), schema));\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}:{{port}}/{{url_prefix}}/stocks",
+							"host": [
+								"{{url}}"
+							],
+							"port": "{{port}}",
+							"path": [
+								"{{url_prefix}}",
+								"stocks"
+							],
+							"query": [
+								{
+									"key": "id",
+									"value": null,
+									"disabled": true
+								},
+								{
+									"key": "quantity",
+									"value": "",
+									"disabled": true
+								},
+								{
+									"key": "last_modified_by",
+									"value": null,
+									"disabled": true
+								},
+								{
+									"key": "supplier_id",
+									"value": null,
+									"disabled": true
+								},
+								{
+									"key": "product_id",
+									"value": null,
+									"disabled": true
+								}
+							]
+						},
+						"description": "Get all stocks from the db filter by the request params"
+					},
+					"response": []
+				},
+				{
+					"name": "POST Stock",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"const schema = {\r",
+									"    \"$schema\": \"http://json-schema.org/draft-07/schema\",\r",
+									"    \"$id\": \"http://example.com/example.json\",\r",
+									"    \"required\": [\r",
+									"        \"data\"\r",
+									"    ],\r",
+									"    \"properties\": {\r",
+									"        \"data\": {\r",
+									"            \"$id\": \"#/properties/data\",\r",
+									"            \"required\": [\r",
+									"                \"id\",\r",
+									"                \"quantity\",\r",
+									"                \"retail_price\",\r",
+									"                \"created_at\",\r",
+									"                \"updated_at\",\r",
+									"                \"last_modified_by\",\r",
+									"                \"product_id\",\r",
+									"                \"supplier_id\"\r",
+									"            ],\r",
+									"            \"properties\": {\r",
+									"                \"id\": {\r",
+									"                    \"$id\": \"#/properties/data/properties/id\"\r",
+									"                },\r",
+									"                \"quantity\": {\r",
+									"                    \"$id\": \"#/properties/data/properties/quantity\"\r",
+									"                },\r",
+									"                \"retail_price\": {\r",
+									"                    \"$id\": \"#/properties/data/properties/retail_price\"\r",
+									"                },\r",
+									"                \"created_at\": {\r",
+									"                    \"$id\": \"#/properties/data/properties/created_at\"\r",
+									"                },\r",
+									"                \"updated_at\": {\r",
+									"                    \"$id\": \"#/properties/data/properties/updated_at\"\r",
+									"                },\r",
+									"                \"last_modified_by\": {\r",
+									"                    \"$id\": \"#/properties/data/properties/last_modified_by\"\r",
+									"                },\r",
+									"                \"product_id\": {\r",
+									"                    \"$id\": \"#/properties/data/properties/product_id\"\r",
+									"                },\r",
+									"                \"supplier_id\": {\r",
+									"                    \"$id\": \"#/properties/data/properties/supplier_id\"\r",
+									"                }\r",
+									"            }\r",
+									"        }\r",
+									"    }\r",
+									"}\r",
+									"\r",
+									"pm.test('Schema is valid', function () {\r",
+									"    pm.expect(tv4.validate(pm.response.json(), schema));\r",
+									"});\r",
+									"\r",
+									"pm.environment.set(\"global_id\", pm.response.json().data.id);\r",
+									"\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"pm.environment.unset(\"global_id\");"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"quantity\": 111,\r\n    \"retail_price\": 11.2,\r\n    \"supplier_id\": \"{{supplier_id}}\",\r\n    \"product_id\": \"{{product_id}}\",\r\n    \"last_modified_by\": \"{{employee_id}}\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}:{{port}}/{{url_prefix}}/stocks",
+							"host": [
+								"{{url}}"
+							],
+							"port": "{{port}}",
+							"path": [
+								"{{url_prefix}}",
+								"stocks"
+							]
+						},
+						"description": "Post a new stock in the db with data in request body"
+					},
+					"response": []
+				},
+				{
+					"name": "PUT Stock",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"let schema = {\r",
+									"    \"$schema\": \"http://json-schema.org/draft-07/schema\",\r",
+									"    \"$id\": \"#\",\r",
+									"    \"type\": \"object\",\r",
+									"    \"default\": {},\r",
+									"    \"required\": [],\r",
+									"    \"properties\": {\r",
+									"        \"data\": {\r",
+									"            \"$id\": \"##/properties/data\",\r",
+									"            \"type\": \"object\",\r",
+									"            \"default\": {},\r",
+									"            \"required\": [],\r",
+									"            \"properties\": {\r",
+									"                \"id\": {\r",
+									"                    \"$id\": \"##/properties/data/properties/id\",\r",
+									"                    \"type\": \"string\",\r",
+									"                    \"default\": \"\"\r",
+									"                },\r",
+									"                \"name\": {\r",
+									"                    \"$id\": \"##/properties/data/properties/name\",\r",
+									"                    \"type\": \"string\",\r",
+									"                    \"default\": \"\"\r",
+									"                },\r",
+									"                \"description\": {\r",
+									"                    \"$id\": \"##/properties/data/properties/description\",\r",
+									"                    \"type\": \"string\",\r",
+									"                    \"default\": \"\"\r",
+									"                },\r",
+									"                \"last_modified_by\": {\r",
+									"                    \"$id\": \"##/properties/data/properties/last_modified_by\",\r",
+									"                    \"type\": \"string\",\r",
+									"                    \"default\": \"\"\r",
+									"                },\r",
+									"                \"created_at\": {\r",
+									"                    \"$id\": \"##/properties/data/properties/created_at\",\r",
+									"                    \"type\": \"string\",\r",
+									"                    \"default\": \"\"\r",
+									"                },\r",
+									"                \"updated_at\": {\r",
+									"                    \"$id\": \"##/properties/data/properties/updated_at\",\r",
+									"                    \"type\": \"string\",\r",
+									"                    \"default\": \"\"\r",
+									"                }\r",
+									"            }\r",
+									"        }\r",
+									"    }\r",
+									"}\r",
+									"\r",
+									"pm.test('Schema is valid', function () {\r",
+									"    pm.expect(tv4.validate(pm.response.json(), schema));\r",
+									"});\r",
+									"\r",
+									"pm.environment.set(\"global_id\", pm.response.json().data.id);\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"quantity\": 100,\r\n    \"retail_price\": 12,\r\n    \"last_modified_by\": \"{{employee_id}}\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}:{{port}}/{{url_prefix}}/stocks/{{global_id}}",
+							"host": [
+								"{{url}}"
+							],
+							"port": "{{port}}",
+							"path": [
+								"{{url_prefix}}",
+								"stocks",
+								"{{global_id}}"
+							]
+						},
+						"description": "Update a stock in the db filtered by an id in the url and updated by the request body"
+					},
+					"response": []
+				},
+				{
+					"name": "DELETE Stock",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"let schema = {\r",
+									"    \"$schema\": \"http://json-schema.org/draft-07/schema\",\r",
+									"    \"$id\": \"#\",\r",
+									"    \"type\": \"object\",\r",
+									"    \"default\": {},\r",
+									"    \"required\": [],\r",
+									"    \"properties\": {\r",
+									"        \"data\": {\r",
+									"            \"$id\": \"##/properties/data\",\r",
+									"            \"type\": \"string\",\r",
+									"            \"default\": \"\"\r",
+									"        }\r",
+									"    }\r",
+									"}\r",
+									"\r",
+									"pm.test('Schema is valid', function () {\r",
+									"    pm.expect(tv4.validate(pm.response.json(), schema));\r",
+									"});\r",
+									"\r",
+									"\r",
+									"pm.environment.unset(\"global_id\");\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}:{{port}}/{{url_prefix}}/stocks/{{global_id}}",
+							"host": [
+								"{{url}}"
+							],
+							"port": "{{port}}",
+							"path": [
+								"{{url_prefix}}",
+								"stocks",
+								"{{global_id}}"
+							]
+						},
+						"description": "Delete a prodcut in the db filtered by an id in the url"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Orders",
+			"item": [
+				{
+					"name": "GET Orders",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"const schema = {\r",
+									"    \"$schema\": \"http://json-schema.org/draft-07/schema\",\r",
+									"    \"$id\": \"#\",\r",
+									"    \"type\": \"object\",\r",
+									"    \"default\": {},\r",
+									"    \"required\": [],\r",
+									"    \"properties\": {\r",
+									"        \"data\": {\r",
+									"            \"$id\": \"##/properties/data\",\r",
+									"            \"type\": \"array\",\r",
+									"            \"default\": [],\r",
+									"            \"items\": {\r",
+									"                \"$id\": \"##/properties/data/items\",\r",
+									"                \"anyOf\": [\r",
+									"                    {\r",
+									"                        \"$id\": \"##/properties/data/items/anyOf/0\",\r",
+									"                        \"type\": \"object\",\r",
+									"                        \"default\": {},\r",
+									"                        \"required\": [],\r",
+									"                        \"properties\": {\r",
+									"                            \"id\": {\r",
+									"                                \"$id\": \"##/properties/data/items/anyOf/0/properties/id\",\r",
+									"                                \"type\": \"string\",\r",
+									"                                \"default\": \"\"\r",
+									"                            },\r",
+									"                            \"name\": {\r",
+									"                                \"$id\": \"##/properties/data/items/anyOf/0/properties/name\",\r",
+									"                                \"type\": \"string\",\r",
+									"                                \"default\": \"\"\r",
+									"                            },\r",
+									"                            \"mobile_phone\": {\r",
+									"                                \"$id\": \"##/properties/data/items/anyOf/0/properties/mobile_phone\",\r",
+									"                                \"type\": \"string\",\r",
+									"                                \"default\": \"\"\r",
+									"                            },\r",
+									"                            \"address\": {\r",
+									"                                \"$id\": \"##/properties/data/items/anyOf/0/properties/address\",\r",
+									"                                \"type\": \"string\",\r",
+									"                                \"default\": \"\"\r",
+									"                            },\r",
+									"                            \"created_at\": {\r",
+									"                                \"$id\": \"##/properties/data/items/anyOf/0/properties/created_at\",\r",
+									"                                \"type\": \"string\",\r",
+									"                                \"default\": \"\"\r",
+									"                            },\r",
+									"                            \"updated_at\": {\r",
+									"                                \"$id\": \"##/properties/data/items/anyOf/0/properties/updated_at\",\r",
+									"                                \"type\": \"string\",\r",
+									"                                \"default\": \"\"\r",
+									"                            },\r",
+									"                            \"role\": {\r",
+									"                                \"$id\": \"##/properties/data/items/anyOf/0/properties/role\",\r",
+									"                                \"type\": \"string\",\r",
+									"                                \"default\": \"\"\r",
+									"                            },\r",
+									"                            \"username\": {\r",
+									"                                \"$id\": \"##/properties/data/items/anyOf/0/properties/username\",\r",
+									"                                \"type\": \"string\",\r",
+									"                                \"default\": \"\"\r",
+									"                            }\r",
+									"                        }\r",
+									"                    }\r",
+									"                ]\r",
+									"            }\r",
+									"        }\r",
+									"    }\r",
+									"}\r",
+									"\r",
+									"pm.test('Schema is valid', function () {\r",
+									"    pm.expect(tv4.validate(pm.response.json(), schema));\r",
+									"});\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}:{{port}}/{{url_prefix}}/orders",
+							"host": [
+								"{{url}}"
+							],
+							"port": "{{port}}",
+							"path": [
+								"{{url_prefix}}",
+								"orders"
+							],
+							"query": [
+								{
+									"key": "id",
+									"value": null,
+									"disabled": true
+								},
+								{
+									"key": "order_id",
+									"value": "",
+									"disabled": true
+								},
+								{
+									"key": "order_date",
+									"value": null,
+									"disabled": true
+								},
+								{
+									"key": "order_status",
+									"value": null,
+									"disabled": true
+								},
+								{
+									"key": "order_discount_rate",
+									"value": null,
+									"disabled": true
+								},
+								{
+									"key": "total_price",
+									"value": null,
+									"disabled": true
+								},
+								{
+									"key": "customer_id",
+									"value": null,
+									"disabled": true
+								},
+								{
+									"key": "last_modified_by",
+									"value": null,
+									"disabled": true
+								}
+							]
+						},
+						"description": "Get all employees from the db filter by the request params"
+					},
+					"response": []
+				},
+				{
+					"name": "POST Order",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"pm.environment.unset(\"global_id\");"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"const schema = {\r",
+									"    \"$schema\": \"http://json-schema.org/draft-07/schema\",\r",
+									"    \"$id\": \"http://example.com/example.json\",\r",
+									"    \"properties\": {\r",
+									"        \"data\": {\r",
+									"            \"$id\": \"#/properties/data\",\r",
+									"            \"properties\": {\r",
+									"                \"id\": {\r",
+									"                    \"$id\": \"#/properties/data/properties/id\"\r",
+									"                },\r",
+									"                \"order_id\": {\r",
+									"                    \"$id\": \"#/properties/data/properties/order_id\"\r",
+									"                },\r",
+									"                \"order_date\": {\r",
+									"                    \"$id\": \"#/properties/data/properties/order_date\"\r",
+									"                },\r",
+									"                \"order_status\": {\r",
+									"                    \"$id\": \"#/properties/data/properties/order_status\"\r",
+									"                },\r",
+									"                \"order_discount_rate\": {\r",
+									"                    \"$id\": \"#/properties/data/properties/order_discount_rate\"\r",
+									"                },\r",
+									"                \"created_at\": {\r",
+									"                    \"$id\": \"#/properties/data/properties/created_at\"\r",
+									"                },\r",
+									"                \"updated_at\": {\r",
+									"                    \"$id\": \"#/properties/data/properties/updated_at\"\r",
+									"                },\r",
+									"                \"last_modified_by\": {\r",
+									"                    \"$id\": \"#/properties/data/properties/last_modified_by\"\r",
+									"                },\r",
+									"                \"customer_id\": {\r",
+									"                    \"$id\": \"#/properties/data/properties/customer_id\"\r",
+									"                },\r",
+									"                \"order_items\": {\r",
+									"                    \"$id\": \"#/properties/data/properties/order_items\",\r",
+									"                    \"items\": {\r",
+									"                        \"$id\": \"#/properties/data/properties/order_items/items\",\r",
+									"                        \"anyOf\": [\r",
+									"                            {\r",
+									"                                \"$id\": \"#/properties/data/properties/order_items/items/anyOf/0\",\r",
+									"                                \"properties\": {\r",
+									"                                    \"id\": {\r",
+									"                                        \"$id\": \"#/properties/data/properties/order_items/items/anyOf/0/properties/id\"\r",
+									"                                    },\r",
+									"                                    \"quantity\": {\r",
+									"                                        \"$id\": \"#/properties/data/properties/order_items/items/anyOf/0/properties/quantity\"\r",
+									"                                    },\r",
+									"                                    \"price\": {\r",
+									"                                        \"$id\": \"#/properties/data/properties/order_items/items/anyOf/0/properties/price\"\r",
+									"                                    },\r",
+									"                                    \"item_discount_rate\": {\r",
+									"                                        \"$id\": \"#/properties/data/properties/order_items/items/anyOf/0/properties/item_discount_rate\"\r",
+									"                                    },\r",
+									"                                    \"product_id\": {\r",
+									"                                        \"$id\": \"#/properties/data/properties/order_items/items/anyOf/0/properties/product_id\"\r",
+									"                                    },\r",
+									"                                    \"order_id\": {\r",
+									"                                        \"$id\": \"#/properties/data/properties/order_items/items/anyOf/0/properties/order_id\"\r",
+									"                                    }\r",
+									"                                }\r",
+									"                            }\r",
+									"                        ]\r",
+									"                    }\r",
+									"                }\r",
+									"            }\r",
+									"        }\r",
+									"    }\r",
+									"}\r",
+									"\r",
+									"pm.test('Schema is valid', function () {\r",
+									"    pm.expect(tv4.validate(pm.response.json(), schema));\r",
+									"});\r",
+									"\r",
+									"pm.environment.set(\"global_id\", pm.response.json().data.id);\r",
+									"\r",
+									"pm.environment.set(\"order_id\", pm.response.json().data.id);\r",
+									"pm.environment.set(\"order_item_id\", pm.response.json().data.order_items[0].id);\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"order_id\": \"123456\",\r\n    \"order_date\": \"11-12-2020 14:30:30\",\r\n    \"order_status\": \"sold\",\r\n    \"order_discount_rate\": 0.3,\r\n    \"total_price\": 24,\r\n    \"customer_id\": \"{{customer_id}}\",\r\n    \"last_modified_by\": \"{{employee_id}}\",\r\n    \"order_items\": [\r\n        {\r\n            \"quantity\": 2,\r\n            \"price\": 12,\r\n            \"order_item_discount_rate\": 0.3,\r\n            \"product_id\": \"{{product_id}}\"\r\n        }\r\n    ]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}:{{port}}/{{url_prefix}}/orders",
+							"host": [
+								"{{url}}"
+							],
+							"port": "{{port}}",
+							"path": [
+								"{{url_prefix}}",
+								"orders"
+							]
+						},
+						"description": "Post a new order in the db with data in request body"
+					},
+					"response": []
+				},
+				{
+					"name": "PUT Order",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"let schema = {\r",
+									"    \"$schema\": \"http://json-schema.org/draft-07/schema\",\r",
+									"    \"$id\": \"http://example.com/example.json\",\r",
+									"    \"properties\": {\r",
+									"        \"data\": {\r",
+									"            \"$id\": \"#/properties/data\",\r",
+									"            \"properties\": {\r",
+									"                \"id\": {\r",
+									"                    \"$id\": \"#/properties/data/properties/id\"\r",
+									"                },\r",
+									"                \"order_id\": {\r",
+									"                    \"$id\": \"#/properties/data/properties/order_id\"\r",
+									"                },\r",
+									"                \"order_date\": {\r",
+									"                    \"$id\": \"#/properties/data/properties/order_date\"\r",
+									"                },\r",
+									"                \"order_status\": {\r",
+									"                    \"$id\": \"#/properties/data/properties/order_status\"\r",
+									"                },\r",
+									"                \"order_discount_rate\": {\r",
+									"                    \"$id\": \"#/properties/data/properties/order_discount_rate\"\r",
+									"                },\r",
+									"                \"created_at\": {\r",
+									"                    \"$id\": \"#/properties/data/properties/created_at\"\r",
+									"                },\r",
+									"                \"updated_at\": {\r",
+									"                    \"$id\": \"#/properties/data/properties/updated_at\"\r",
+									"                },\r",
+									"                \"last_modified_by\": {\r",
+									"                    \"$id\": \"#/properties/data/properties/last_modified_by\"\r",
+									"                },\r",
+									"                \"customer_id\": {\r",
+									"                    \"$id\": \"#/properties/data/properties/customer_id\"\r",
+									"                },\r",
+									"                \"order_items\": {\r",
+									"                    \"$id\": \"#/properties/data/properties/order_items\",\r",
+									"                    \"items\": {\r",
+									"                        \"$id\": \"#/properties/data/properties/order_items/items\",\r",
+									"                        \"anyOf\": [\r",
+									"                            {\r",
+									"                                \"$id\": \"#/properties/data/properties/order_items/items/anyOf/0\",\r",
+									"                                \"properties\": {\r",
+									"                                    \"id\": {\r",
+									"                                        \"$id\": \"#/properties/data/properties/order_items/items/anyOf/0/properties/id\"\r",
+									"                                    },\r",
+									"                                    \"quantity\": {\r",
+									"                                        \"$id\": \"#/properties/data/properties/order_items/items/anyOf/0/properties/quantity\"\r",
+									"                                    },\r",
+									"                                    \"price\": {\r",
+									"                                        \"$id\": \"#/properties/data/properties/order_items/items/anyOf/0/properties/price\"\r",
+									"                                    },\r",
+									"                                    \"item_discount_rate\": {\r",
+									"                                        \"$id\": \"#/properties/data/properties/order_items/items/anyOf/0/properties/item_discount_rate\"\r",
+									"                                    },\r",
+									"                                    \"product_id\": {\r",
+									"                                        \"$id\": \"#/properties/data/properties/order_items/items/anyOf/0/properties/product_id\"\r",
+									"                                    },\r",
+									"                                    \"order_id\": {\r",
+									"                                        \"$id\": \"#/properties/data/properties/order_items/items/anyOf/0/properties/order_id\"\r",
+									"                                    }\r",
+									"                                }\r",
+									"                            }\r",
+									"                        ]\r",
+									"                    }\r",
+									"                }\r",
+									"            }\r",
+									"        }\r",
+									"    }\r",
+									"}\r",
+									"\r",
+									"pm.test('Schema is valid', function () {\r",
+									"    pm.expect(tv4.validate(pm.response.json(), schema));\r",
+									"});\r",
+									"\r",
+									"pm.environment.set(\"order_id\", pm.response.json().data.id);\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"order_id\": \"123456\",\r\n    \"total_price\": 36,\r\n    \"last_modified_by\": \"{{employee_id}}\",\r\n    \"order_items\": [\r\n        {\r\n            \"id\": \"{{order_item_id}}\",\r\n            \"quantity\": 3,\r\n            \"price\": 12,\r\n            \"item_discount_rate\": \"0.3\",\r\n            \"product_id\": \"{{product_id}}\",\r\n            \"order_id\": \"{{order_id}}\"\r\n        }\r\n    ]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}:{{port}}/{{url_prefix}}/orders/{{global_id}}",
+							"host": [
+								"{{url}}"
+							],
+							"port": "{{port}}",
+							"path": [
+								"{{url_prefix}}",
+								"orders",
+								"{{global_id}}"
+							]
+						},
+						"description": "Update an order in the db filtered by an id in the url and updated by the request body"
+					},
+					"response": []
+				},
+				{
+					"name": "DELETE Order",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"let schema = {\r",
+									"    \"$schema\": \"http://json-schema.org/draft-07/schema\",\r",
+									"    \"$id\": \"#\",\r",
+									"    \"type\": \"object\",\r",
+									"    \"default\": {},\r",
+									"    \"required\": [],\r",
+									"    \"properties\": {\r",
+									"        \"data\": {\r",
+									"            \"$id\": \"##/properties/data\",\r",
+									"            \"type\": \"string\",\r",
+									"            \"default\": \"\"\r",
+									"        }\r",
+									"    }\r",
+									"}\r",
+									"\r",
+									"pm.test('Schema is valid', function () {\r",
+									"    pm.expect(tv4.validate(pm.response.json(), schema));\r",
+									"});\r",
+									"\r",
+									"\r",
+									"pm.environment.unset(\"global_id\");\r",
+									"\r",
+									"\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}:{{port}}/{{url_prefix}}/orders/{{global_id}}",
+							"host": [
+								"{{url}}"
+							],
+							"port": "{{port}}",
+							"path": [
+								"{{url_prefix}}",
+								"orders",
+								"{{global_id}}"
+							]
+						},
+						"description": "Delete an order in the db filtered by an id in the url"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Check Health",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{url}}:{{port}}/",
+					"host": [
+						"{{url}}"
+					],
+					"port": "{{port}}",
+					"path": [
+						""
+					]
+				},
+				"description": "this request to check the health of the server. \r\n\r\nShould return {\"status\": \"SUCCESS\"}"
+			},
+			"response": []
+		}
+	],
+	"variable": [
+		{
+			"key": "url",
+			"value": "http://localhost"
+		},
+		{
+			"key": "port",
+			"value": "8008"
+		},
+		{
+			"key": "url_prefix",
+			"value": "spos/api/v1"
+		}
+	]
+}

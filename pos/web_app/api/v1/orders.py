@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 
 # lib imports
+import datetime
 from flask import Blueprint, request
 
 # project imports
@@ -26,16 +27,18 @@ def create_order():
     json_data = request.json
 
     order = (DBDriver().get_orders(order_id=json_data['order_id']) or [None])[0]
+
     if order is None:
         try:
+            order_items = []
             created_order = DBDriver().create_order(order_id=json_data['order_id'],
-                                                    order_date=json_data['order_date'],
+                                                    order_date=datetime.datetime.strptime(json_data['order_date'],
+                                                                                          '%d-%m-%Y %H:%M:%S'),
                                                     order_status=json_data['order_status'],
                                                     order_discount_rate=json_data['order_discount_rate'],
                                                     total_price=json_data['total_price'],
                                                     customer_id=json_data['customer_id'],
                                                     last_modified_by=json_data['last_modified_by'])
-            order_items = []
             for order_item in json_data['order_items']:
                 created_order_item = DBDriver().create_order_item(quantity=order_item['quantity'],
                                                                   price=order_item['price'],
@@ -43,8 +46,7 @@ def create_order():
                                                                   product_id=order_item['product_id'],
                                                                   order_id=created_order.id)
                 order_items.append(created_order_item)
-            order = {'order_details': created_order, 'order_items': order_items}
-            return StandardResponse(order, 200).to_json()
+            return StandardResponse(created_order, 200).to_json()
         except:
             return StandardResponse("check request json format", 400).to_json()
     else:
@@ -59,23 +61,28 @@ def update_orders(order_db_id):
 
     if order is not None:
         try:
+            if json_data.get('order_date', None) is not None:
+                order_date = datetime.datetime.strptime(json_data.get('order_date'), '%d-%m-%Y %H:%M:%S')
+            else:
+                order_date = None
+
+            for order_item in json_data['order_items']:
+                DBDriver().update_order_item(id=order_item.get('id'),
+                                             quantity=order_item.get('quantity', None),
+                                             price=order_item.get('price', None),
+                                             order_item_discount_rate=order_item.get('order_item_discount_rate', None),
+                                             product_id=order_item.get('product_id', None),
+                                             order_id=order_db_id)
+
             updated_order = DBDriver().update_order(id=order_db_id,
                                                     last_modified_by=json_data['last_modified_by'],
-                                                    order_date=json_data.get('order_date', None),
+                                                    order_date=order_date,
                                                     order_status=json_data.get('order_status', None),
                                                     order_discount_rate=json_data.get('order_discount_rate', None),
                                                     total_price=json_data.get('total_price', None),
                                                     customer_id=json_data.get('customer_id', None))
-            order_items = []
-            for order_item in json_data['order_items']:
-                updated_order_item = DBDriver().create_order_item(quantity=order_item.get('quantity', None),
-                                                                  price=order_item.get('price', None),
-                                                                  order_item_discount_rate=order_item.get('order_item_discount_rate', None),
-                                                                  product_id=order_item.get('product_id', None),
-                                                                  order_id=updated_order.id)
-                order_items.append(updated_order_item)
-            order = {'order_details': updated_order, 'order_items': order_items}
-            return StandardResponse(order, 200).to_json()
+
+            return StandardResponse(updated_order, 200).to_json()
         except:
             return StandardResponse("check request json format", 400).to_json()
     else:
@@ -84,7 +91,7 @@ def update_orders(order_db_id):
 
 @orders_blueprint.route('/orders/<order_id>', methods=['DELETE'])
 def delete_category(order_id):
-    order = (DBDriver().get_orders(order_id=order_id) or [None])[0]
+    order = (DBDriver().get_orders(id=order_id) or [None])[0]
 
     if order is not None:
         try:

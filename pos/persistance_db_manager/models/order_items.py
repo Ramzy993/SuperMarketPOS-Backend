@@ -3,7 +3,7 @@
 # lib imports
 import uuid
 from sqlalchemy import Column, String, ForeignKey, Integer, CheckConstraint
-from sqlalchemy.orm import relationship
+from sqlalchemy.orm import relationship, backref
 
 # project imports
 from pos.persistance_db_manager.abstract_db_driver import base_model
@@ -19,12 +19,12 @@ class OrderItem(base_model):
     id = Column(GUID(), default=uuid.uuid4, primary_key=True)
     quantity = Column(Integer, nullable=False)
     price = Column(Integer, nullable=False)
-    item_discount_rate = Column(String(128), unique=True, nullable=False)
+    item_discount_rate = Column(String(128), nullable=False)
 
     product_id = Column(GUID, ForeignKey('products.id'), nullable=False)
     order_id = Column(GUID, ForeignKey('orders.id'), nullable=False)
 
-    order = relationship("Order", uselist=True, backref="order_items")
+    order = relationship("Order", uselist=True, backref=backref("order_items", cascade="all,delete"))
 
     def __init__(self, quantity, price, item_discount_rate, product_id, order_id):
         self.quantity = quantity
