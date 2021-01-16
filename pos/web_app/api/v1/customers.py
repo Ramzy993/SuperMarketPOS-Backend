@@ -37,7 +37,7 @@ def create_customer():
         except:
             return StandardResponse("check request json format", 400).to_json()
     else:
-        return StandardResponse("category already exists", 406).to_json()
+        return StandardResponse("customer already exists", 406).to_json()
 
 
 @customers_blueprint.route('/customers/<customer_id>', methods=['PUT', 'PATCH'])

@@ -51,7 +51,7 @@ class DBDriver(AbstractDBDriver):
         self.connection = self.engine.connect()
         self.session = sessionmaker(bind=self.engine)()
 
-        # self.__seed_db()
+        self.__seed_db()
 
     def __del__(self):
         self.connection.close()
@@ -59,8 +59,26 @@ class DBDriver(AbstractDBDriver):
     def __seed_db(self):
         employee = (self.get_employees(username='ramzy993') or [None])[0]
         if employee is None:
-            self.create_employee(username='ramzy993', password='123', name='Youssef Ramzy', mobile_phone='0111',
-                                 address='123 st', role='admin')
+            employee = self.create_employee(username='ramzy993', password='123', name='Youssef Ramzy',
+                                            mobile_phone='0111', address='123 st', role='admin')
+
+        category = (self.get_categories(name='rices') or [None])[0]
+        if category is None:
+            category = self.create_category(name='rices', description='rices are good', last_modified_by=employee.id)
+
+        product = (self.get_products(name='rice') or [None])[0]
+        if product is None:
+            self.create_product(name='rice', description='rice is good', par_code='1111', price='1.5',
+                                last_modified_by=employee.id, category_id=category.id)
+
+        supplier = (self.get_suppliers(name='supplier_a') or [None])[0]
+        if supplier is None:
+            self.create_supplier(name='supplier_a', mobile_phone='0123', email='supplier_a@gmail.com',
+                                 address='111 st', last_modified_by=employee.id)
+
+        customer = (self.get_customers(name='customer_a') or [None])[0]
+        if customer is None:
+            self.create_customer(name='customer_a', mobile_phone='01234', address='111 st', last_modified_by=employee.id)
 
     def __dynamic_commit(self, model):
         self.session.add(model)
@@ -187,7 +205,7 @@ class DBDriver(AbstractDBDriver):
 
     def create_supplier(self, name, mobile_phone, email, address, last_modified_by):
         try:
-            supplier = Supplier(name=name,mobile_phone=mobile_phone, email=email, address=address,
+            supplier = Supplier(name=name, mobile_phone=mobile_phone, email=email, address=address,
                                 last_modified_by=last_modified_by)
             return self.__dynamic_commit(supplier)
 
@@ -234,7 +252,7 @@ class DBDriver(AbstractDBDriver):
         try:
             order = Order(order_id=order_id, order_date=order_date, order_status=order_status,
                           order_discount_rate=order_discount_rate, last_modified_by=last_modified_by,
-                          customer_id=customer_id)
+                          customer_id=customer_id, total_price=total_price)
             return self.__dynamic_commit(order)
 
         except Exception as e:

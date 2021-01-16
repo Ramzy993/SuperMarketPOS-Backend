@@ -28,11 +28,12 @@ class Order(base_model):
     last_modified_by = Column(GUID, ForeignKey('employees.id'), nullable=False)
     customer_id = Column(GUID, ForeignKey('customers.id'), nullable=False)
 
-    def __init__(self, order_id, order_date, order_status, order_discount_rate, last_modified_by, customer_id):
+    def __init__(self, order_id, order_date, order_status, order_discount_rate, total_price, last_modified_by, customer_id):
         self.order_id = order_id
         self.order_date = order_date
         self.order_status = order_status
         self.order_discount_rate = order_discount_rate
+        self.total_price = total_price
         self.created_at = datetime.now()
         self.updated_at = datetime.now()
         self.last_modified_by = last_modified_by
@@ -49,8 +50,10 @@ class Order(base_model):
             'order_date': self.order_date,
             'order_status': self.order_status,
             'order_discount_rate': self.order_discount_rate,
+            'total_price': self.total_price,
             'created_at': self.created_at,
             'updated_at': self.updated_at,
             'last_modified_by': self.last_modified_by,
             'customer_id': self.customer_id,
+            'order_items': self.order_items
         }
